@@ -33,6 +33,24 @@
     ustawCiecie();
   }
 
+  /* --- wideo w tle hero ---
+     Plik podpinamy dopiero ze skryptu i z preload="none", więc pierwsze wejście
+     na stronę nie ciągnie 2 MB, zanim pokaże się treść. Przy ustawieniu
+     „ogranicz ruch” w ogóle go nie wczytujemy — zostaje sam plakat, czyli
+     nieruchoma pierwsza klatka. */
+  var wideo = document.getElementById('wideoSalon');
+  if (wideo && !reduced) {
+    var wlaczWideo = function () {
+      wideo.src = 'media/hero/salon.mp4';
+      var p = wideo.play();
+      // Przeglądarka może odmówić autoodtwarzania — wtedy zostaje plakat
+      // i nic się nie psuje, więc odrzucenie tylko pochłaniamy.
+      if (p && p.catch) p.catch(function () {});
+    };
+    if ('requestIdleCallback' in window) window.requestIdleCallback(wlaczWideo, { timeout: 2500 });
+    else window.addEventListener('load', wlaczWideo);
+  }
+
   /* --- przyciski: rozbicie napisu na litery ---
      Każda litera dostaje własny <span> i numer w kolejności, z którego CSS liczy
      opóźnienie podskoku — stąd fala od lewej do prawej. Czytnik ekranu dostaje

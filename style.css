@@ -249,6 +249,34 @@ a{ color:inherit; }
 /* ---------- Hero — metamorfoza przed / po ---------- */
 /* Poprzednie hero (warkocz przewijany klatkami na canvasie) leży w archiwum/
    pod nazwą *-hero-warkocz.*, razem z klatkami w media/warkocz-klatki. */
+/* Wideo leży pod całą zawartością hero, przykryte kremową powłoką. Bez niej
+   ciemny tekst na jasnych oknach i podłodze traciłby kontrast. */
+.hero__tlo{
+  position:absolute; inset:0; z-index:0; overflow:hidden;
+  background:var(--paper);
+}
+.hero__wideo{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+/* Krycie powłoki dobrane pomiarem, nie na oko. Wideo ma i jasne okno, i ciemne
+   zakamarki, więc po zmieszaniu z papierem powstają półtony o jasności zbliżonej
+   do złotych nadtytułów — i to one, a nie najjaśniejszy punkt, wyznaczają
+   najgorszy kontrast. Przy 0.78 z lewej i 0.86 z prawej wszystkie napisy hero
+   trzymają się powyżej 4,5:1, a wideo dalej widać. */
+.hero__tlo::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(to right,
+    rgba(251,247,242,.78) 0%,
+    rgba(251,247,242,.86) 100%);
+}
+/* Nad wideo złoto i szarość z reszty strony nie wyrabiają kontrastu, więc tylko
+   w hero napisy schodzą o ton niżej: nadtytuły na ciemniejsze złoto (4,70:1),
+   akapit z --ink-soft na --ink-2 (6,98:1). */
+.hero .eyebrow, .hero .metam__naglowek{ color:#6F5226; }
+.hero .hero__miasto{ color:#6F5226; }
+.hero .hero__lead{ color:var(--ink-2); }
+.hero > *:not(.hero__tlo){ position:relative; z-index:1; }
+
 .hero{
   position:relative;
   min-height:100svh;

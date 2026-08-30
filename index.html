@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Prata&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=37">
+<link rel="stylesheet" href="style.css?v=39">
 </head>
 <body>
 
@@ -58,6 +58,15 @@
 
 <!-- ============ HERO — metamorfoza przed / po ============ -->
 <section class="hero" id="top">
+  <!-- Wideo w tle: puste wnętrze salonu, bez ludzi i napisów. Leci bez dźwięku,
+       w pętli, przyciszone kremową powłoką, żeby tekst na wierzchu został czytelny.
+       Atrybut poster pokazuje pierwszą klatkę, zanim plik się wczyta, i zostaje
+       zamiast filmu przy ustawieniu „ogranicz ruch”. -->
+  <div class="hero__tlo" aria-hidden="true">
+    <video class="hero__wideo" id="wideoSalon" poster="media/hero/salon.jpg"
+           muted loop playsinline preload="none" tabindex="-1"></video>
+  </div>
+
   <!-- Metamorfoza jako suwak. Oba kadry są dopasowane tak, żeby włosy zajmowały
        90% szerokości ramki i stały na jej środku — bez tego linia podziału biegła
        w poprzek dwóch różnych ujęć i całość wyglądała krzywo. Warstwa „przed" jest
@@ -513,6 +522,6 @@
 <!-- ?v= przy arkuszu i skrypcie: bez tego przeglądarka trzyma poprzednią
      wersję z cache i po wgraniu poprawki trzeba odświeżać z Ctrl+Shift+R.
      Numer podbijam przy każdej zmianie w tych dwóch plikach. -->
-<script src="script.js?v=37"></script>
+<script src="script.js?v=39"></script>
 </body>
 </html>
