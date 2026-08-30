@@ -280,7 +280,11 @@ a{ color:inherit; }
 .hero .eyebrow, .hero .metam__naglowek{ color:#6F5226; }
 .hero .hero__miasto{ color:#6F5226; }
 .hero .hero__lead{ color:var(--ink-2); }
-.hero > *:not(.hero__tlo){ position:relative; z-index:1; }
+/* Treść ma leżeć nad wideo. Celowo tylko .hero__inner — wskaźnik przewijania
+   ma własne position:absolute i objęcie go tą regułą robiło z niego wiersz
+   siatki, przez co hero rosło o jego wysokość i nie mieściło się w ekranie. */
+.hero__inner{ position:relative; z-index:1; }
+.hero__scroll{ z-index:2; }
 
 .hero{
   position:relative;
@@ -398,7 +402,7 @@ a{ color:inherit; }
 .hero__nazwa{
   display:block;
   font-family:var(--serif); font-weight:400;
-  font-size:clamp(3.2rem, 7vw, 5.6rem); line-height:1;
+  font-size:clamp(3rem, 6.4vw, 5rem); line-height:1;
   letter-spacing:-.02em; color:var(--ink);
   animation:logoWchodzi 1.1s var(--ease) .2s both;
 }
@@ -444,13 +448,18 @@ a{ color:inherit; }
      telefonie to nazwa ma witać, a nie zdjęcie. Kadr stoi pośrodku, bo przy
      wyrównaniu do lewej zostawał po prawej pusty pas na pół ekranu. */
   .hero__inner{ grid-template-columns:1fr; gap:var(--space-4); justify-items:center; justify-content:center; }
-  .hero__tresc{ width:100%; order:1; }
+  .hero__tresc{ width:100%; order:1; text-align:center; }
   .metam{ order:2; }
+  /* wszystko w jednej osi: nadtytuł, nazwa, miasto, akapit i przyciski */
+  .hero__miasto{ justify-content:center; }
+  .hero .hero__lead{ margin-inline:auto; }
+  .hero__cta{ justify-content:center; }
+  .metam__naglowek{ text-align:center; }
   .metam{ --uchwyt:2rem; }
   .metam__kadr{ height:min(42svh, 17rem); }
   .hero__miasto{ font-size:.62rem; letter-spacing:.22em; margin-top:.4rem; }
   .hero__lead{ font-size:.9rem; line-height:1.55; margin-bottom:var(--space-3); }
-  .hero__cta{ justify-content:flex-start; gap:.5rem; }
+  .hero__cta{ gap:.5rem; }
   .hero__cta .btn{ min-height:44px; padding:.6rem .85rem; font-size:.66rem; letter-spacing:.06em; }
   .hero__scroll{ display:none; }
 }
