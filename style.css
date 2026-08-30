@@ -153,7 +153,16 @@ html.nav-ukryta .nav{
 }
 
 /* W pasku ta sama nazwa i ten sam krój co w hero. */
-.nav__nazwa{ height:1.5rem; width:auto; display:block; fill:var(--ink); color:var(--ink); }
+/* Napis siedzi w ramce wyśrodkowanej razem z ogonkiem litery „p”, więc same
+   litery lądują wyżej niż środek paska i logo wygląda, jakby uciekało do góry.
+   Ogonek zajmuje 36 z 208 jednostek ramki — przesuwamy więc napis w dół o
+   połowę tego, czyli o 9% własnej wysokości, i wyrównuje się optycznie
+   z tekstem obok. */
+.nav__nazwa{
+  height:1.5rem; width:auto; display:block;
+  fill:var(--ink); color:var(--ink);
+  transform:translateY(9%);
+}
 .nav__links{ display:flex; gap:1.75rem; }
 .nav__links a{
   font-size:.8rem; letter-spacing:.09em; text-transform:uppercase; font-weight:500;
@@ -237,8 +246,20 @@ html.nav-ukryta .nav{
   display:block;
   width:clamp(260px,32vw,460px); height:auto;
   fill:var(--ink); color:var(--ink);
-  margin-bottom:var(--space-3);
   animation:logoWchodzi 1.1s var(--ease) .2s both;
+}
+/* Miasto pod nazwą — czytane razem z nią jako „Zaplecione Stalowa Wola”.
+   Kreska po lewej wiąże je z napisem, zamiast robić z tego osobny podpis. */
+.hero__miasto{
+  display:flex; align-items:center; gap:.7em;
+  margin-top:.55rem;
+  font-family:var(--sans); font-size:.78rem; font-weight:600;
+  letter-spacing:.3em; text-transform:uppercase;
+  color:var(--gold-deep); line-height:1;
+  animation:logoWchodzi 1.1s var(--ease) .35s both;
+}
+.hero__miasto::before{
+  content:""; width:2.2em; height:1px; flex:none; background:var(--gold);
 }
 @media (prefers-reduced-motion: reduce){ .hero__nazwa{ animation:none; } }
 
@@ -247,7 +268,6 @@ html.nav-ukryta .nav{
    nie działała: `.hero__krok` tworzył własny kontekst układania i nie było z czym mieszać. */
 .hero__logo{
   margin:0 0 var(--space-3);
-  line-height:0;
 }
 .hero__logo img{
   width:clamp(280px, 34vw, 460px);
@@ -291,7 +311,8 @@ html.nav-ukryta .nav{
     background:none; backdrop-filter:none; -webkit-backdrop-filter:none;
     padding:0; border-radius:0;
   }
-  .hero__nazwa{ width:100%; max-width:220px; margin-bottom:var(--space-2); }
+  .hero__nazwa{ width:100%; max-width:220px; }
+  .hero__miasto{ font-size:.62rem; letter-spacing:.22em; margin-top:.4rem; }
   .hero__lead{ font-size:.85rem; line-height:1.5; margin-bottom:var(--space-3); }
   .hero__cta{ justify-content:flex-start; gap:.5rem; }
   .hero__cta .btn{ min-height:44px; padding:.6rem .85rem; font-size:.66rem; letter-spacing:.06em; }
@@ -726,8 +747,13 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 }
 
 @media (max-width:760px){
-  /* w wąskim pasku zostaje nazwa, telefon i menu — ikony są w sekcji kontaktu */
+  /* W wąskim pasku zostaje nazwa, telefon i menu — ikony są w sekcji kontaktu.
+     To one miały margin-right:auto i odpychały resztę w prawo, więc po ich
+     schowaniu telefon z menu przyklejały się do nazwy i wisiały na środku.
+     Odpychanie przejmuje teraz sama nazwa. */
   .nav__spolecznosciowe{ display:none; }
+  .nav__brand{ margin-right:auto; }
+  .nav{ gap:.35rem; }
   .nav .btn--sm span{ display:none; }
   .nav .btn--sm{ padding:.55rem .75rem; }
   .mozaika{ grid-template-columns:1fr; }

@@ -45,18 +45,24 @@
     // dość zapasu, więc dopasowujemy klatkę do wysokości i przesuwamy ją w bok,
     // a powstałe puste pole domalowujemy rozciągniętą krawędzią klatki — tło jest
     // jednolicie kremowe, więc szew jest niewidoczny.
-    var SRODEK_WARKOCZA = 0.53;   // gdzie warkocz siedzi w klatce źródłowej
+    // Kadrujemy po PRAWEJ krawędzi warkocza, nie po jego środku. Środek wędruje —
+    // w pierwszej klatce warkocz jest wąski i siedzi na 0.52 szerokości, w ostatniej
+    // rozplata się i sięga do 0.37 — natomiast prawa krawędź stoi w miejscu na
+    // 0.61 przez całą sekwencję (zmierzone na klatkach 0, 45 i 89). Trzymając się
+    // jej, wiemy dokładnie, w którym miejscu ekranu kończą się włosy, a zaczyna
+    // miejsce na tekst.
+    var PRAWA_KRAWEDZ = 0.61;
     var rysuj = function (i) {
       var im = obrazy[i];
       if (!im || !im.complete || !im.naturalWidth) return;
       var cw = canvas.width, ch = canvas.height;
       var skala = ch / im.naturalHeight;
       var w = im.naturalWidth * skala;
-      // Klatka jest dopasowywana do wysokości, więc na wąskim i wysokim ekranie
-      // robi się bardzo szeroka — warkocz zajmowałby cały ekran. Dlatego na telefonie
-      // przesuwamy jego środek poza lewą krawędź i zostaje sam pas włosów przy brzegu.
-      var cel = window.innerWidth < 900 ? -0.10 : 0.24;
-      var x = cel * cw - SRODEK_WARKOCZA * w;
+      // Ułamek szerokości ekranu, na którym ma się kończyć warkocz. Na telefonie
+      // klatka jest rozciągana ponad dwukrotnie, więc bez zejścia niżej włosy
+      // zajmowałyby prawie cały kadr i tekst leżałby na nich.
+      var cel = window.innerWidth < 900 ? 0.38 : 0.42;
+      var x = cel * cw - PRAWA_KRAWEDZ * w;
 
       ctx.drawImage(im, x, 0, w, ch);
       // dociągnięcie tła krawędziowym pikselem klatki
