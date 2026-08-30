@@ -435,12 +435,45 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 /* ---------- Cennik ---------- */
 .cennik{ max-width:var(--maxw); margin-inline:auto; }
 .cennik .lead{ margin-top:var(--space-3); }
-.cennik__grupa{ margin-bottom:var(--space-5); }
-.cennik__grupa > h3{
-  font-size:clamp(1.3rem,2.2vw,1.7rem);
-  padding-bottom:.6rem; margin-bottom:var(--space-3);
-  border-bottom:2px solid var(--gold);
+/* Cennik to pięć tabel — rozwinięte naraz ciągnęły się przez kilka ekranów.
+   Grupy są więc zwijane, a atrybut name na <details> pilnuje, żeby otwarta była
+   tylko jedna. Bez linijki JS-a; starsze przeglądarki po prostu pozwolą otworzyć
+   kilka naraz, czyli zachowają się jak poprzednia wersja strony. */
+.cennik__grupa{
+  border-bottom:1px solid var(--line);
 }
+.cennik__grupa:first-of-type{ border-top:1px solid var(--line); }
+.cennik__grupa > summary{
+  display:flex; align-items:baseline; gap:var(--space-3);
+  padding:var(--space-3) 0; cursor:pointer;
+  list-style:none; /* Firefox */
+  transition:color .2s ease;
+}
+.cennik__grupa > summary::-webkit-details-marker{ display:none; }
+.cennik__grupa > summary:hover .cennik__tytul{ color:var(--gold-deep); }
+.cennik__grupa > summary:focus-visible{
+  outline:2px solid var(--gold); outline-offset:4px; border-radius:2px;
+}
+.cennik__tytul{
+  font-family:var(--serif); font-size:clamp(1.15rem,2vw,1.45rem);
+  color:var(--ink); transition:color .2s ease;
+}
+.cennik__hint{
+  flex:1; font-size:.85rem; color:var(--ink-soft);
+}
+/* plus zmieniający się w minus po otwarciu */
+.cennik__znak{
+  position:relative; flex:none; width:14px; height:14px; align-self:center;
+}
+.cennik__znak::before, .cennik__znak::after{
+  content:""; position:absolute; inset:50% 0 auto; height:1.5px;
+  background:var(--gold-deep); transition:transform .25s ease;
+}
+.cennik__znak::after{ transform:rotate(90deg); }
+.cennik__grupa[open] .cennik__znak::after{ transform:rotate(0deg); }
+.cennik__grupa[open] .cennik__tytul{ color:var(--gold-deep); }
+.cennik__grupa > summary + *{ margin-top:0; }
+.cennik__grupa[open] > summary ~ *:last-child{ margin-bottom:var(--space-4); }
 .cennik__para{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); align-items:start; }
 .cennik__para--gora{ margin-top:var(--space-3); }
 
@@ -656,6 +689,9 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
   .tile--tall{ grid-row:auto; min-height:290px; }
   .skup__inner, .kontakt__inner, .iso__inner{ grid-template-columns:1fr; }
   .cennik__para{ grid-template-columns:1fr; }
+  /* na wąskim ekranie sam tytuł grupy — podpowiedź zawijałaby się w drugą linijkę */
+  .cennik__hint{ display:none; }
+  .cennik__grupa > summary{ justify-content:space-between; }
   .skup__img{ max-width:420px; }
 }
 
