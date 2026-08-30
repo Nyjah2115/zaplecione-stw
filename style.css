@@ -195,13 +195,12 @@ a{ color:inherit; }
 .hero__tresc{ min-width:0; max-width:52ch; }
 
 /* --- suwak metamorfozy --- */
-/* Zdjęcie jest wąskie i wysokie (232×472), więc prowadzi je wysokość, a szerokość
-   dolicza się z proporcji. Inaczej przy szerokim oknie karta wychodziła poniżej
-   ekranu razem z podpisem. */
+/* Kadr prowadzi wysokość, a szerokość dolicza się z proporcji 3:4 — inaczej przy
+   szerokim oknie karta wychodziła poniżej ekranu. */
 .metam{ margin:0; width:auto; --uchwyt:2.6rem; }
 .metam__kadr{
-  position:relative; aspect-ratio:232 / 472; overflow:hidden;
-  height:min(68svh, 30rem); width:auto;
+  position:relative; aspect-ratio:3 / 4; overflow:hidden;
+  height:min(66svh, 31rem); width:auto;
   border-radius:3px; border:1px solid var(--line);
   box-shadow:0 26px 60px rgba(43,33,26,.20);
   background:var(--paper-2);
@@ -312,7 +311,7 @@ a{ color:inherit; }
   /* Zdjęcie idzie nad tekst — obok siebie zostawałaby na oba za wąska kolumna. */
   .hero__inner{ grid-template-columns:1fr; gap:var(--space-4); justify-items:start; justify-content:start; }
   .metam{ --uchwyt:2rem; }
-  .metam__kadr{ height:min(46svh, 19rem); }
+  .metam__kadr{ height:min(42svh, 17rem); }
   .hero__nazwa{ width:100%; max-width:260px; }
   .hero__miasto{ font-size:.62rem; letter-spacing:.22em; margin-top:.4rem; }
   .hero__lead{ font-size:.9rem; line-height:1.55; margin-bottom:var(--space-3); }

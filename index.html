@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Prata&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=16">
+<link rel="stylesheet" href="style.css?v=17">
 </head>
 <body>
 
@@ -57,22 +57,23 @@
 
 <!-- ============ HERO — metamorfoza przed / po ============ -->
 <section class="hero" id="top">
-  <!-- Metamorfoza jako suwak: dwie połówki jednego zdjęcia z Instagrama, rozcięte
-       na osi kolażu. Górna warstwa jest przycinana clip-path, a szerokość cięcia
-       bierze się z pozycji suwaka — to zwykły <input type="range">, więc działa
-       też z klawiatury i czytnika ekranu, bez własnej obsługi dostępności. -->
+  <!-- Metamorfoza jako suwak. Oba zdjęcia są dokadrowane do wspólnych 3:4, żeby
+       nakładały się co do piksela — bez tego suwak przeskakiwałby kadrem. Górna
+       warstwa jest przycinana clip-path, a szerokość cięcia bierze się z pozycji
+       suwaka: to zwykły <input type="range">, więc działa też z klawiatury
+       i czytnika ekranu, bez własnej obsługi dostępności. -->
   <div class="hero__inner">
     <div class="metam" id="metam">
       <div class="metam__kadr">
-        <img class="metam__po" src="media/foto/meta-po.jpg" width="232" height="472"
-             alt="Te same włosy dzisiaj: dłuższe, gęste i lśniące, sięgające poniżej łopatek">
+        <img class="metam__po" src="media/foto/meta-po.jpg" width="640" height="853"
+             alt="Te same włosy po zabiegach: gładkie, lśniące, równo ułożone na całej długości">
         <div class="metam__przed-warstwa">
-          <img class="metam__przed" src="media/foto/meta-przed.jpg" width="232" height="472"
-               alt="Włosy w kwietniu 2025: przerzedzone, matowe, kończące się nad łopatkami">
+          <img class="metam__przed" src="media/foto/meta-przed.jpg" width="640" height="853"
+               alt="Włosy przed zabiegami: przesuszone, spuszone, z odłamanymi włoskami na całej długości">
         </div>
         <span class="metam__linia" aria-hidden="true"></span>
         <input class="metam__suwak" id="metamSuwak" type="range" min="0" max="100" value="50"
-               aria-label="Przeciągnij, żeby porównać włosy przed zabiegami i dzisiaj">
+               aria-label="Przeciągnij, żeby porównać włosy przed zabiegami i po nich">
       </div>
     </div>
 
@@ -506,6 +507,6 @@
 <!-- ?v= przy arkuszu i skrypcie: bez tego przeglądarka trzyma poprzednią
      wersję z cache i po wgraniu poprawki trzeba odświeżać z Ctrl+Shift+R.
      Numer podbijam przy każdej zmianie w tych dwóch plikach. -->
-<script src="script.js?v=16"></script>
+<script src="script.js?v=17"></script>
 </body>
 </html>
