@@ -24,10 +24,19 @@
       return 'media/warkocz-klatki/k' + String(i).padStart(3, '0') + '.jpg';
     };
 
+    // Klatki mają 618 px wysokości, więc powyżej pewnego rozmiaru canvas nie niesie
+    // już żadnego detalu — dokłada tylko pracy przy każdym przemalowaniu. Na dużym
+    // monitorze bufor 2880 px wysokości oznaczał czterokrotnie więcej pikseli do
+    // przepisania niż na laptopie, przy dokładnie tym samym obrazku. Ograniczamy go
+    // do 1600 px; resztę do rozmiaru okna dociąga już samo skalowanie CSS.
+    var MAX_BUFOR = 1600;
     var wymiaruj = function () {
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(canvas.clientWidth * dpr);
-      canvas.height = Math.round(canvas.clientHeight * dpr);
+      var h = Math.min(canvas.clientHeight * dpr, MAX_BUFOR);
+      var skalaBufora = canvas.clientHeight ? h / (canvas.clientHeight * dpr) : 1;
+      canvas.width = Math.round(canvas.clientWidth * dpr * skalaBufora);
+      canvas.height = Math.round(h);
+      ctx.imageSmoothingQuality = 'high';
       ostatnia = -1;
     };
 
@@ -130,7 +139,17 @@
     };
     kolejka();
 
-    window.addEventListener('scroll', odswiez, { passive: true });
+    // Przeglądarka potrafi wysłać zdarzenie scroll częściej niż odświeża ekran.
+    // Bez tego na monitorze 120 Hz przemalowywaliśmy canvas kilka razy na klatkę
+    // zupełnie bez potrzeby — stąd szarpanie na większych ekranach.
+    var czeka = false;
+    var naScroll = function () {
+      if (czeka) return;
+      czeka = true;
+      window.requestAnimationFrame(function () { czeka = false; odswiez(); });
+    };
+
+    window.addEventListener('scroll', naScroll, { passive: true });
     window.addEventListener('resize', function () { wymiaruj(); odswiez(); }, { passive: true });
 
     // portret Anny jest opcjonalny — dopóki nie ma pliku, chowamy go zamiast
