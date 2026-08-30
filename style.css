@@ -185,10 +185,14 @@ a{ color:inherit; }
 }
 .hero__inner{
   width:100%; max-width:var(--maxw); margin-inline:auto;
-  display:grid; grid-template-columns:auto 1fr; gap:clamp(2rem,5vw,5rem);
+  /* Obie kolumny na własnej szerokości i rozepchnięte do krawędzi: zdjęcie trzyma
+     się lewej, nazwa prawej. Przy „auto 1fr" tekst zajmował całą resztę wiersza
+     i mimo wyrównania do lewej zostawiał po prawej pół ekranu pustki. */
+  display:grid; grid-template-columns:auto auto; justify-content:space-between;
+  gap:clamp(2rem,5vw,5rem);
   align-items:center;
 }
-.hero__tresc{ min-width:0; }
+.hero__tresc{ min-width:0; max-width:52ch; }
 
 /* --- suwak metamorfozy --- */
 /* Zdjęcie jest wąskie i wysokie (232×472), więc prowadzi je wysokość, a szerokość
@@ -306,7 +310,7 @@ a{ color:inherit; }
 
 @media (max-width:900px){
   /* Zdjęcie idzie nad tekst — obok siebie zostawałaby na oba za wąska kolumna. */
-  .hero__inner{ grid-template-columns:1fr; gap:var(--space-4); justify-items:start; }
+  .hero__inner{ grid-template-columns:1fr; gap:var(--space-4); justify-items:start; justify-content:start; }
   .metam{ --uchwyt:2rem; }
   .metam__kadr{ height:min(46svh, 19rem); }
   .hero__nazwa{ width:100%; max-width:260px; }
