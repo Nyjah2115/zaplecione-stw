@@ -211,14 +211,18 @@ html.nav-ukryta .nav{
   right:clamp(1rem,6vw,6rem); left:auto;
   width:min(52ch, 46vw);
   text-align:left;
-  opacity:0; transform:translateY(26px);
+  opacity:0;
+  /* --dryf ustawia skrypt z pozycji scrolla: napisy zjeżdżają w dół razem
+     z warkoczem. Do tego dochodzi stałe 26px, z którego tekst wjeżdża przy
+     pojawieniu się. */
+  transform:translateY(calc(26px + var(--dryf, 0px)));
   /* wychodzący tekst gaśnie szybko, wchodzący startuje z opóźnieniem — inaczej
      przez chwilę nakładałyby się dwa akapity w tym samym miejscu */
   transition:opacity .3s var(--ease), transform .3s var(--ease);
   pointer-events:none;
 }
 .hero__krok.is-widoczny{
-  opacity:1; transform:none; pointer-events:auto;
+  opacity:1; transform:translateY(var(--dryf, 0px)); pointer-events:auto;
   transition:opacity .55s var(--ease) .3s, transform .75s var(--ease) .3s;
 }
 

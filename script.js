@@ -52,26 +52,33 @@
     // jej, wiemy dokładnie, w którym miejscu ekranu kończą się włosy, a zaczyna
     // miejsce na tekst.
     var PRAWA_KRAWEDZ = 0.61;
-    var rysuj = function (i) {
+    // Kadr jest o tyle wyższy od ekranu, o ile warkocz ma zjechać w dół przez całą
+    // sekcję. Zaczynamy od dolnej części kadru i wędrujemy ku górnej, więc obraz
+    // przesuwa się w dół razem z przewijaniem — i ani przez chwilę nie odsłania
+    // pustego pola, bo zapas jest zawsze poza ekranem.
+    var NADMIAR = 0.22;
+    var rysuj = function (i, postep) {
       var im = obrazy[i];
       if (!im || !im.complete || !im.naturalWidth) return;
       var cw = canvas.width, ch = canvas.height;
-      var skala = ch / im.naturalHeight;
+      var hRys = ch * (1 + NADMIAR);
+      var skala = hRys / im.naturalHeight;
       var w = im.naturalWidth * skala;
       // Ułamek szerokości ekranu, na którym ma się kończyć warkocz. Na telefonie
       // klatka jest rozciągana ponad dwukrotnie, więc bez zejścia niżej włosy
       // zajmowałyby prawie cały kadr i tekst leżałby na nich.
       var cel = window.innerWidth < 900 ? 0.46 : 0.42;
       var x = cel * cw - PRAWA_KRAWEDZ * w;
+      var y = -NADMIAR * ch * (1 - postep);
 
-      ctx.drawImage(im, x, 0, w, ch);
+      ctx.drawImage(im, x, y, w, hRys);
       // dociągnięcie tła krawędziowym pikselem klatki
       if (x > 0) {
-        ctx.drawImage(im, 0, 0, 2, im.naturalHeight, 0, 0, Math.ceil(x) + 1, ch);
+        ctx.drawImage(im, 0, 0, 2, im.naturalHeight, 0, y, Math.ceil(x) + 1, hRys);
       }
       if (x + w < cw) {
         ctx.drawImage(im, im.naturalWidth - 2, 0, 2, im.naturalHeight,
-                      Math.floor(x + w) - 1, 0, cw - (x + w) + 2, ch);
+                      Math.floor(x + w) - 1, y, cw - (x + w) + 2, hRys);
       }
       ostatnia = i;
     };
@@ -91,16 +98,21 @@
       biezacyPostep = postep;
 
       var i = Math.round(postep * (KLATEK - 1));
-      if (i !== ostatnia) {
-        var gotowa = najblizszaGotowa(i);
-        if (gotowa >= 0) rysuj(gotowa);
-        ostatnia = i;
-      }
+      var gotowa = najblizszaGotowa(i);
+      if (gotowa >= 0) rysuj(gotowa, postep);
 
+      // Napisy zjeżdżają w dół razem z warkoczem — każdy w obrębie własnego okna
+      // widoczności, żeby wchodzący blok zaczynał od zera, a nie w połowie drogi.
+      var DRYF = 90;
       for (var k = 0; k < kroki.length; k++) {
         var od = parseFloat(kroki[k].dataset.od);
         var doo = parseFloat(kroki[k].dataset.do);
-        kroki[k].classList.toggle('is-widoczny', postep >= od && postep <= doo);
+        var widoczny = postep >= od && postep <= doo;
+        kroki[k].classList.toggle('is-widoczny', widoczny);
+        if (widoczny && doo > od) {
+          var lokalny = (postep - od) / (doo - od);
+          kroki[k].style.setProperty('--dryf', (lokalny * DRYF).toFixed(1) + 'px');
+        }
       }
 
       // nawigacja pojawia się, gdy tylko zaczniesz przewijać
@@ -113,7 +125,7 @@
       im.decoding = 'async';
       im.onload = function () {
         wczytane++;
-        if (i === 0 || Math.round(biezacyPostep * (KLATEK - 1)) === i) rysuj(i);
+        if (i === 0 || Math.round(biezacyPostep * (KLATEK - 1)) === i) rysuj(i, biezacyPostep);
         if (potem) potem();
       };
       im.src = sciezka(i);
@@ -149,14 +161,33 @@
     // Bez tego na monitorze 120 Hz przemalowywaliśmy canvas kilka razy na klatkę
     // zupełnie bez potrzeby — stąd szarpanie na większych ekranach.
     var czeka = false;
+    var zlecone = 0;
     var naScroll = function () {
-      if (czeka) return;
+      var teraz = (window.performance && performance.now()) ? performance.now() : Date.now();
+      if (czeka) {
+        // Zlecona klatka jeszcze nie przyszła. Jeśli milczy dłużej niż 200 ms, to
+        // znaczy, że przeglądarka wstrzymała animacje (karta w tle, oszczędzanie
+        // energii) — wtedy rysujemy wprost, zamiast czekać w nieskończoność
+        // i zostawić warkocz zamrożony.
+        if (teraz - zlecone < 200) return;
+        zlecone = teraz;
+        odswiez();
+        return;
+      }
       czeka = true;
+      zlecone = teraz;
       window.requestAnimationFrame(function () { czeka = false; odswiez(); });
     };
 
     window.addEventListener('scroll', naScroll, { passive: true });
     window.addEventListener('resize', function () { wymiaruj(); odswiez(); }, { passive: true });
+    // W ukrytej karcie przeglądarka nie wywołuje requestAnimationFrame, więc gdyby
+    // w tym czasie przyszło zdarzenie scroll, blokada zostałaby podniesiona i nigdy
+    // zdjęta — po powrocie do karty warkocz stałby w miejscu. Zerujemy ją i
+    // przerysowujemy przy każdym powrocie.
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) { czeka = false; odswiez(); }
+    });
 
     // portret Anny jest opcjonalny — dopóki nie ma pliku, chowamy go zamiast
     // zostawiać złamaną ikonę obrazka
