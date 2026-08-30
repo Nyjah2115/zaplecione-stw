@@ -63,7 +63,10 @@ img{ max-width:100%; display:block; }
 
 main{ position:relative; }
 
-h1,h2,h3{ font-family:var(--serif); font-weight:400; line-height:1.14; margin:0; letter-spacing:-.01em; }
+/* Prata ma długie wydłużenia dolne, a polskie ogonki i kreski (ż, ó, ę, ą) jeszcze
+   je wydłużają w obie strony. Przy 1.14 w wielolinijkowych nagłówkach „y" z jednej
+   linijki dotykało kropki nad „ż" z następnej. */
+h1,h2,h3{ font-family:var(--serif); font-weight:400; line-height:1.22; margin:0; letter-spacing:-.01em; }
 h2{ font-size:clamp(2rem,4.6vw,3.4rem); }
 h3{ font-size:clamp(1.15rem,1.8vw,1.45rem); }
 /* Prata nie ma odmiany kursywnej — przeglądarka pochylałaby ją sztucznie i brzydko.
