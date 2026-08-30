@@ -105,16 +105,23 @@
       obrazy[i] = im;
     };
 
-    // na telefonie bierzemy co drugą klatkę — połowa transferu, a przy krótszej
-    // drodze przewijania różnicy i tak nie widać
+    // Na telefonie pierwsze przejście bierze co drugą klatkę, żeby warkocz ruszył
+    // po połowie transferu. Braki dociągamy dopiero drugim przejściem, gdy strona
+    // już działa — droga przewijania jest na tyle długa, że przeskoki byłyby widoczne.
     var krokLadowania = window.innerWidth < 760 ? 2 : 1;
 
     wymiaruj();
     wczytaj(0, function () { odswiez(); });
     var nastepna = krokLadowania;
+    var uzupelnij = function () {
+      for (var i = 0; i < KLATEK; i++) {
+        if (!obrazy[i]) { wczytaj(i, uzupelnij); return; }
+      }
+    };
     var kolejka = function () {
       if (nastepna >= KLATEK) {
-        if (!obrazy[KLATEK - 1]) wczytaj(KLATEK - 1);
+        if (!obrazy[KLATEK - 1]) wczytaj(KLATEK - 1, uzupelnij);
+        else uzupelnij();
         return;
       }
       var i = nastepna;

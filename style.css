@@ -164,7 +164,7 @@ html.nav-ukryta .nav{
    scrolla wybiera klatkę z sekwencji rysowanej na canvasie. */
 .hero{
   position:relative;
-  height:340svh;
+  height:560svh;
   padding:0;              /* nadpisuje wspólny padding sekcji — scena ma być pełnoekranowa */
   background:var(--paper);
 }
@@ -266,8 +266,8 @@ html.nav-ukryta .nav{
 @keyframes mysz{ 0%,100%{ transform:translateY(0); opacity:1 } 60%{ transform:translateY(12px); opacity:0 } }
 
 @media (max-width:760px){
-  /* krótsza droga przewijania — na telefonie 340svh to męcząca wędrówka */
-  .hero{ height:260svh; }
+  /* krótsza droga przewijania — na telefonie pełne 560svh to męcząca wędrówka */
+  .hero{ height:420svh; }
 }
 
 @media (max-width:900px){
