@@ -61,7 +61,7 @@
       // Ułamek szerokości ekranu, na którym ma się kończyć warkocz. Na telefonie
       // klatka jest rozciągana ponad dwukrotnie, więc bez zejścia niżej włosy
       // zajmowałyby prawie cały kadr i tekst leżałby na nich.
-      var cel = window.innerWidth < 900 ? 0.38 : 0.42;
+      var cel = window.innerWidth < 900 ? 0.46 : 0.42;
       var x = cel * cw - PRAWA_KRAWEDZ * w;
 
       ctx.drawImage(im, x, 0, w, ch);
