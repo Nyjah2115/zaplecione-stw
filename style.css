@@ -346,6 +346,9 @@ a{ color:inherit; }
 
 /* ---------- Sekcje ---------- */
 section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
+/* Pasek nawigacji jest przyklejony do góry, więc skok z menu zatrzymywał stronę
+   tak, że nadtytuł sekcji chował się pod nim. */
+section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 .sect__head{ max-width:var(--maxw); margin:0 auto var(--space-5); }
 
 /* ---------- Certyfikat ISO ---------- */
@@ -433,8 +436,11 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 /* ---------- Galeria ---------- */
 .galeria{ max-width:var(--maxw); margin-inline:auto; }
 .galeria .lead{ margin-top:var(--space-3); }
+/* Kartki układają się do własnej treści, a nie do najwyższej w rzędzie — zdjęcia
+   mają różne proporcje i wyrównywanie ich wysokości robiło szare pasy. */
 .galeria__grid{
   display:grid; grid-template-columns:repeat(auto-fill,minmax(14.4rem,1fr)); gap:var(--space-3);
+  align-items:start;
 }
 /* na jasnej stronie podpisy są widoczne od razu, nie po najechaniu */
 .galeria figure{
@@ -445,9 +451,12 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
   transition:transform .4s var(--ease), box-shadow .4s var(--ease);
 }
 .galeria figure:hover{ transform:translateY(-4px); box-shadow:0 16px 34px rgba(43,33,26,.11); }
+/* Zdjęcia to zrzuty z Instagrama: kolaże przed/po, kadry pionowe i poziome.
+   Wtłoczone w jedną proporcję 3:4 z object-fit:contain dostawały szerokie szare
+   pasy u góry i u dołu. Każde zachowuje teraz własne proporcje — nic nie jest
+   przycięte i nigdzie nie ma pustego pola. */
 .galeria img{
-  width:100%; height:auto; aspect-ratio:3/4; object-fit:contain;
-  background:var(--paper-3);
+  width:100%; height:auto; display:block;
 }
 .galeria figcaption{
   padding:.9rem 1rem 1.15rem;
@@ -763,6 +772,38 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 }
 
 @media (max-width:760px){
+  /* Tabele cennika mają do czterech kolumn — na telefonie nie mieściły się
+     w ekranie i widać było tylko pierwszą cenę, a reszta chowała się w poziomym
+     przewijaniu, o którym nikt nie wie. Rozkładamy każdy wiersz na kartkę:
+     nazwa usługi u góry, pod nią ceny podpisane nazwą kolumny (z data-kol). */
+  .tabela, .tabela tbody, .tabela tr, .tabela th, .tabela td{ display:block; }
+  .tabela{ border:0; background:none; }
+  .tabela thead{ display:none; }
+  .tabela tbody tr{
+    background:var(--paper); border:1px solid var(--line); border-radius:4px;
+    padding:.9rem 1rem; margin-bottom:.6rem;
+  }
+  .tabela tbody tr:last-child{ margin-bottom:0; }
+  .tabela tbody th{
+    padding:0 0 .5rem; border-bottom:1px solid var(--line); margin-bottom:.4rem;
+    font-size:1rem;
+  }
+  .tabela tbody td{
+    display:flex; justify-content:space-between; align-items:baseline; gap:1rem;
+    padding:.3rem 0; border:0; text-align:right;
+  }
+  .tabela tbody td::before{
+    content:attr(data-kol);
+    font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-soft); font-weight:600; text-align:left;
+  }
+  /* w kartce nie ma czego przewijać w bok */
+  .tabela-scroll{ overflow-x:visible; }
+
+  /* Przycisk i ikony trzymają się razem: wcześniej Facebook zostawał sam
+     w nowej linijce pod przyciskiem. */
+  .kontakt__social{ flex-wrap:wrap; }
+  .kontakt__social .btn{ flex:1 1 100%; }
   /* W wąskim pasku zostaje nazwa, telefon i menu — ikony są w sekcji kontaktu.
      To one miały margin-right:auto i odpychały resztę w prawo, więc po ich
      schowaniu telefon z menu przyklejały się do nazwy i wisiały na środku.
@@ -774,7 +815,9 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
   .nav .btn--sm{ padding:.55rem .75rem; }
   .mozaika{ grid-template-columns:1fr; }
   .tile--wide{ grid-column:auto; }
-  .galeria__grid{ grid-template-columns:repeat(2,1fr); gap:var(--space-2); }
+  /* Zdjęcia w galerii to zrzuty z Instagrama — w dwóch kolumnach po 165 px
+     wypalone w nie napisy robiły się nieczytelne. Jedna kolumna na ekran. */
+  .galeria__grid{ grid-template-columns:1fr; gap:var(--space-3); }
   .galeria figcaption{ padding:.7rem .8rem .9rem; font-size:.8rem; }
   .stopka__kolumny{ grid-template-columns:1fr; justify-items:center; text-align:center; gap:var(--space-3); }
   .stopka__kolumny nav{ justify-self:center; }
@@ -783,6 +826,5 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
   .stopka nav{ flex-direction:row; flex-wrap:wrap; text-align:left; gap:1rem; }
   .szkolenia{ flex-direction:column; align-items:flex-start; }
   .raty{ flex-direction:column; }
-  .tabela{ font-size:.86rem; }
-  .tabela thead th, .tabela tbody th, .tabela tbody td{ padding:.6rem .7rem; }
+  .tabela{ font-size:.9rem; }
 }
