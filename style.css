@@ -198,6 +198,20 @@ a{ color:inherit; }
 /* Kadr prowadzi wysokość, a szerokość dolicza się z proporcji 3:4 — inaczej przy
    szerokim oknie karta wychodziła poniżej ekranu. */
 .metam{ margin:0; width:auto; --uchwyt:2.6rem; }
+.metam__naglowek{ margin:0 0 .7rem; }
+/* Etykiety siedzą w rogach kadru. „Przed" leży w przycinanej warstwie, więc
+   znika razem ze zdjęciem, które opisuje — po zsunięciu suwaka na kadrze zostaje
+   samo „Po". Dla czytnika ekranu są zbędne, bo to samo mówią opisy zdjęć. */
+.metam__etykieta{
+  position:absolute; top:.7rem; z-index:1;
+  padding:.32rem .7rem; border-radius:2px;
+  background:rgba(43,33,26,.72);
+  color:#FBF7F2; font-size:.62rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase; line-height:1;
+  pointer-events:none;
+}
+.metam__etykieta--przed{ left:.7rem; }
+.metam__etykieta--po{ right:.7rem; }
 .metam__kadr{
   position:relative; aspect-ratio:3 / 4; overflow:hidden;
   height:min(66svh, 31rem); width:auto;
