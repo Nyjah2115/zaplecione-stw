@@ -32,13 +32,19 @@
   --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   --ease: cubic-bezier(.16,1,.3,1);
-  --maxw: 1240px;
-  --nav-h: 72px;
+  --maxw: 77.5rem;
+  --nav-h: 4.5rem;
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
 
-html{ scroll-behavior:smooth; }
+/* Cała strona skaluje się z rozmiarem pisma korzenia: odstępy, nagłówki i
+   szerokość kolumny są w rem, więc rosną razem z nim. Na telefonie zostaje
+   domyślne 100%, na dużym monitorze dochodzi do 125% — wcześniej wszystko
+   zostawało w rozmiarze laptopowym i na 27 calach wyglądało drobno.
+   Wartości są w procentach, a nie w px, żeby nie nadpisać ustawienia
+   wielkości czcionki z przeglądarki. */
+html{ scroll-behavior:smooth; font-size:clamp(100%, 87% + .35vw, 125%); }
 @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
 
 body{
@@ -46,7 +52,7 @@ body{
   background:var(--paper);
   color:var(--ink);
   font-family:var(--sans);
-  font-size:clamp(1rem, .95rem + .2vw, 1.125rem);
+  font-size:1rem;
   line-height:1.65;
   font-weight:400;
   -webkit-font-smoothing:antialiased;
@@ -84,7 +90,7 @@ a{ color:inherit; }
 /* ---------- Przyciski ---------- */
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
-  min-height:48px; padding:.85rem 1.6rem;
+  min-height:3rem; padding:.85rem 1.6rem;
   font-family:var(--sans); font-size:.82rem; font-weight:600;
   letter-spacing:.1em; text-transform:uppercase; text-decoration:none;
   border:1px solid transparent; border-radius:2px; cursor:pointer;
@@ -93,7 +99,7 @@ a{ color:inherit; }
              border-color .25s var(--ease), transform .25s var(--ease),
              box-shadow .25s var(--ease);
 }
-.btn svg{ width:17px; height:17px; fill:currentColor; }
+.btn svg{ width:1.05rem; height:1.05rem; fill:currentColor; }
 
 /* główny przycisk jest ciemny, nie złoty — złoto na jasnym tle nie wyrabiało
    kontrastu 4.5:1, a tak zostaje czytelnym akcentem */
@@ -147,7 +153,7 @@ html.nav-ukryta .nav{
 }
 
 /* W pasku ta sama nazwa i ten sam krój co w hero. */
-.nav__nazwa{ height:24px; width:auto; display:block; fill:var(--ink); color:var(--ink); }
+.nav__nazwa{ height:1.5rem; width:auto; display:block; fill:var(--ink); color:var(--ink); }
 .nav__links{ display:flex; gap:1.75rem; }
 .nav__links a{
   font-size:.8rem; letter-spacing:.09em; text-transform:uppercase; font-weight:500;
@@ -214,7 +220,7 @@ html.nav-ukryta .nav{
 .hero__osoba > div{ min-width:0; }
 .hero__osoba .hero__title{ margin:0; font-size:clamp(1.7rem,3vw,2.7rem); }
 .hero__portret{
-  flex:0 0 auto; width:200px; height:250px;
+  flex:0 0 auto; width:12.5rem; height:15.6rem;
   border-radius:4px; object-fit:cover; object-position:center top;
   border:1px solid var(--line);
   box-shadow:0 18px 40px rgba(43,33,26,.18);
@@ -370,7 +376,7 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 }
 .tile:hover::before{ transform:scale(1.07); filter:grayscale(0) brightness(.9); }
 .tile--wide{ grid-column:span 2; }
-.tile--tall{ grid-row:span 2; min-height:600px; }
+.tile--tall{ grid-row:span 2; min-height:37.5rem; }
 .tile__body{ padding:var(--space-3); color:#FBF7F2; }
 .tile__body h3{ color:#FBF7F2; }
 .tile__body p{ color:rgba(251,247,242,.85); font-size:.92rem; margin:.6rem 0 0; }
@@ -394,7 +400,7 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 .galeria{ max-width:var(--maxw); margin-inline:auto; }
 .galeria .lead{ margin-top:var(--space-3); }
 .galeria__grid{
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:var(--space-3);
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(14.4rem,1fr)); gap:var(--space-3);
 }
 /* na jasnej stronie podpisy są widoczne od razu, nie po najechaniu */
 .galeria figure{
@@ -468,7 +474,7 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 }
 /* plus zmieniający się w minus po otwarciu */
 .cennik__znak{
-  position:relative; flex:none; width:14px; height:14px; align-self:center;
+  position:relative; flex:none; width:.9rem; height:.9rem; align-self:center;
 }
 .cennik__znak::before, .cennik__znak::after{
   content:""; position:absolute; inset:50% 0 auto; height:1.5px;
@@ -539,11 +545,11 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 /* ---------- Przed wizytą ---------- */
 .wizyta{ background:var(--paper-2); border-block:1px solid var(--line); }
 .wizyta__inner{ max-width:var(--maxw); margin-inline:auto; }
-.wizyta__txt{ max-width:720px; }
+.wizyta__txt{ max-width:45rem; }
 .wizyta__txt .lead{ margin-top:var(--space-3); }
 .wizyta__lista{
   list-style:none; margin:var(--space-5) 0 0; padding:0;
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:var(--space-3);
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); gap:var(--space-3);
 }
 .wizyta__lista li{
   background:var(--paper); border:1px solid var(--line); border-radius:4px;
@@ -603,7 +609,7 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 .ikona{
   position:relative; overflow:hidden;
   display:grid; place-items:center;
-  width:48px; height:48px; flex:0 0 48px;
+  width:3rem; height:3rem; flex:0 0 3rem;
   border:1px solid rgba(43,33,26,.24); border-radius:50%;
   color:var(--ink); text-decoration:none;
   transition:color .3s var(--ease), border-color .3s var(--ease),
@@ -618,7 +624,7 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 }
 .ikona svg{
   position:relative; z-index:1;
-  width:19px; height:19px; fill:currentColor;
+  width:1.2rem; height:1.2rem; fill:currentColor;
   transition:transform .35s var(--ease);
 }
 .ikona:hover, .ikona:focus-visible{
@@ -631,8 +637,8 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 .ikona:active{ transform:translateY(-1px); }
 
 /* wariant do paska nawigacji — mniejszy, żeby nie konkurował z nazwą */
-.ikona--mala{ width:36px; height:36px; flex:0 0 36px; }
-.ikona--mala svg{ width:15px; height:15px; }
+.ikona--mala{ width:2.25rem; height:2.25rem; flex:0 0 2.25rem; }
+.ikona--mala svg{ width:.95rem; height:.95rem; }
 .ikona--mala:hover, .ikona--mala:focus-visible{ transform:translateY(-2px);
   box-shadow:0 6px 14px rgba(43,33,26,.18); }
 
@@ -688,29 +694,24 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 }
 
 /* ---------- Responsywność ---------- */
-/* Na monitorach 1600 px i szerszych kolumna treści dostaje więcej miejsca —
-   przy 1240 px strona wyglądała jak wąski pasek pośrodku pustej płachty. */
-@media (min-width:1600px){
-  :root{ --maxw:1440px; }
-}
-
 @media (max-width:1024px){
   .mozaika{ grid-template-columns:repeat(2,1fr); }
   .tile--wide{ grid-column:span 2; }
-  .tile--tall{ grid-row:auto; min-height:290px; }
+  .tile--tall{ grid-row:auto; min-height:18rem; }
   .skup__inner, .kontakt__inner, .iso__inner{ grid-template-columns:1fr; }
   .cennik__para{ grid-template-columns:1fr; }
   /* na wąskim ekranie sam tytuł grupy — podpowiedź zawijałaby się w drugą linijkę */
   .cennik__hint{ display:none; }
   .cennik__grupa > summary{ justify-content:space-between; }
-  .skup__img{ max-width:420px; }
+  .skup__img{ max-width:26rem; }
 }
 
-/* Pasek nawigacji przechodzi w menu pod przyciskiem już przy 1000 px, a nie
-   dopiero przy 760. Rozwinięte linki potrzebują razem z logo i telefonem około
-   900 px — poniżej tego wychodziły poza ekran na tabletach i w wąskich oknach
-   na laptopie. */
-@media (max-width:1000px){
+/* Pasek nawigacji przechodzi w menu pod przyciskiem już przy 1100 px, a nie
+   dopiero przy 760. Rozwinięte linki potrzebują razem z logo i telefonem prawie
+   całej tej szerokości — poniżej wychodziły poza ekran na tabletach i w wąskich
+   oknach na laptopie. Próg jest wyżej niż sam pomiar, bo przy większej skali
+   pisma napisy w linkach też są szersze. */
+@media (max-width:1100px){
   .nav__links{
     position:fixed; inset:var(--nav-h) 0 auto 0;
     flex-direction:column; gap:0; text-align:center;
