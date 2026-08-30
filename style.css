@@ -268,8 +268,11 @@ a{ color:inherit; }
 .poznajmy__inner{
   display:grid; grid-template-columns:auto 1fr; gap:var(--space-4); align-items:center;
 }
+/* Plik ma 720×900, więc przy 24rem (około 455 px) nadal nie jest rozciągany.
+   Wysokość liczy się z proporcji oryginału, zamiast być wpisana ręcznie. */
 .poznajmy__portret{
-  width:15rem; height:18.7rem; object-fit:cover; object-position:center 22%;
+  width:min(24rem, 40vw); height:auto; aspect-ratio:720 / 900;
+  object-fit:cover; object-position:center 22%;
   border-radius:2px; border:1px solid var(--line);
   box-shadow:0 20px 44px rgba(43,33,26,.14);
 }
@@ -727,6 +730,9 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
   .tile--wide{ grid-column:span 2; }
   .tile--tall{ grid-row:auto; min-height:18rem; }
   .skup__inner, .kontakt__inner, .iso__inner{ grid-template-columns:1fr; }
+  /* portret i tekst jeden pod drugim — obok siebie zostaje na oba za wąsko */
+  .poznajmy__inner{ grid-template-columns:1fr; gap:var(--space-3); }
+  .poznajmy__portret{ width:min(24rem, 62vw); }
   .cennik__para{ grid-template-columns:1fr; }
   /* na wąskim ekranie sam tytuł grupy — podpowiedź zawijałaby się w drugą linijkę */
   .cennik__hint{ display:none; }
