@@ -121,12 +121,24 @@ a{ color:inherit; }
   transition:transform .28s var(--ease);
   transition-delay:calc(var(--i, 0) * 18ms);
 }
-.btn:hover .btn__z, .btn:focus-visible .btn__z{ transform:translateY(-.22em); }
+.btn:hover .btn__z, .btn:focus-visible .btn__z, .btn:active .btn__z{ transform:translateY(-.22em); }
+
+/* Na ekranie dotykowym nie ma najechania, więc fala nigdy by się nie pokazała.
+   Skrypt puszcza ją raz, kiedy przycisk wjedzie w widok. */
+@keyframes falaLitery{
+  0%, 100%{ transform:translateY(0); }
+  45%{ transform:translateY(-.22em); }
+}
+.btn.is-fala .btn__z{
+  animation:falaLitery .55s var(--ease) both;
+  animation-delay:calc(var(--i, 0) * 22ms);
+}
 
 @media (prefers-reduced-motion: reduce){
   .btn:hover, .btn:focus-visible, .btn:active{ transform:none; }
   .btn__z{ transition:none; }
-  .btn:hover .btn__z, .btn:focus-visible .btn__z{ transform:none; }
+  .btn:hover .btn__z, .btn:focus-visible .btn__z, .btn:active .btn__z{ transform:none; }
+  .btn.is-fala .btn__z{ animation:none; }
 }
 
 /* główny przycisk jest ciemny, nie złoty — złoto na jasnym tle nie wyrabiało

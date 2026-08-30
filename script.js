@@ -72,6 +72,22 @@
     rozbij(btn);
   });
 
+  /* Na ekranie dotykowym nie ma najechania, więc fala liter nie miałaby jak się
+     pokazać. Puszczamy ją raz na przycisk, kiedy wjedzie w widok. */
+  if (!reduced && window.matchMedia('(hover: none)').matches
+      && 'IntersectionObserver' in window) {
+    var obsFala = new IntersectionObserver(function (wpisy) {
+      wpisy.forEach(function (w) {
+        if (!w.isIntersecting) return;
+        var el = w.target;
+        obsFala.unobserve(el);
+        el.classList.add('is-fala');
+        setTimeout(function () { el.classList.remove('is-fala'); }, 1400);
+      });
+    }, { threshold: 0.9 });
+    document.querySelectorAll('.btn').forEach(function (b) { obsFala.observe(b); });
+  }
+
   /* --- pasek nawigacji po scrollu --- */
   var nav = document.getElementById('nav');
   function onScroll() {
