@@ -3,7 +3,14 @@
 Jednostronicowa strona salonu fryzjerskiego Zaplecione_Stw ze Stalowej Woli.
 Czysty HTML/CSS/JS, bez frameworków i bez builda.
 
-## Podgląd
+## Publikacja
+**https://nyjah2115.github.io/zaplecione-stw/** — repo `Nyjah2115/zaplecione-stw`,
+gałąź `main`, katalog `/`. Po każdej zweryfikowanej zmianie: commit i push.
+
+W `.gitignore` celowo: `DANE-DO-POTWIERDZENIA.md` (prywatne), `media/hero/orig/` (33 MB
+oryginałów) i `media/logo/zrodlo-canva.svg` (2,2 MB, nieużywany przez stronę).
+
+## Podgląd lokalny
 Konfiguracja `zaplecione` w `/Users/macbook/claude/.claude/launch.json`, port **8907**.
 
 ## Pliki
