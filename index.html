@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Prata&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=25">
+<link rel="stylesheet" href="style.css?v=27">
 </head>
 <body>
 
@@ -62,7 +62,8 @@
        w poprzek dwóch różnych ujęć i całość wyglądała krzywo. Warstwa „przed" jest
        przycinana clip-path, a szerokość cięcia bierze się z pozycji suwaka: to
        zwykły <input type="range">, więc mysz, dotyk, klawiatura i czytnik ekranu
-       działają bez pisania własnej obsługi. -->
+       działają bez pisania własnej obsługi. Etykiety leżą poza przycinaną warstwą
+       i gasną płynnie, gdy ich zdjęcie schodzi z kadru. -->
   <div class="hero__inner">
     <div class="metam" id="metam">
       <p class="eyebrow metam__naglowek">Metamorfoza</p>
@@ -72,8 +73,8 @@
         <div class="metam__przed-warstwa">
           <img class="metam__przed" src="media/foto/meta-przed.jpg" width="640" height="853"
                alt="Włosy przed zabiegami: przesuszone, spuszone, z odłamanymi włoskami na całej długości">
-          <span class="metam__etykieta metam__etykieta--przed" aria-hidden="true">Przed</span>
         </div>
+        <span class="metam__etykieta metam__etykieta--przed" aria-hidden="true">Przed</span>
         <span class="metam__etykieta metam__etykieta--po" aria-hidden="true">Po</span>
         <span class="metam__linia" aria-hidden="true"></span>
         <input class="metam__suwak" id="metamSuwak" type="range" min="0" max="100" value="50"
@@ -511,6 +512,6 @@
 <!-- ?v= przy arkuszu i skrypcie: bez tego przeglądarka trzyma poprzednią
      wersję z cache i po wgraniu poprawki trzeba odświeżać z Ctrl+Shift+R.
      Numer podbijam przy każdej zmianie w tych dwóch plikach. -->
-<script src="script.js?v=25"></script>
+<script src="script.js?v=27"></script>
 </body>
 </html>

@@ -15,8 +15,19 @@
   var suwak = document.getElementById('metamSuwak');
   var metam = document.getElementById('metam');
   if (suwak && metam) {
+    // Etykieta gaśnie, kiedy jej zdjęcie schodzi z kadru. Próg 8% z zapasem
+    // pokrywa szerokość samej etykiety, żeby nie wisiała nad cudzym zdjęciem,
+    // a przejście przez 12% daje płynne wygaszenie zamiast mrugnięcia.
+    var krycie = function (odleglosc) {
+      return Math.max(0, Math.min(1, (odleglosc - 8) / 12)).toFixed(2);
+    };
+    var etykPrzed = metam.querySelector('.metam__etykieta--przed');
+    var etykPo = metam.querySelector('.metam__etykieta--po');
     var ustawCiecie = function () {
-      metam.style.setProperty('--ciecie', suwak.value + '%');
+      var v = Number(suwak.value);
+      metam.style.setProperty('--ciecie', v + '%');
+      if (etykPrzed) etykPrzed.style.opacity = krycie(v);
+      if (etykPo) etykPo.style.opacity = krycie(100 - v);
     };
     suwak.addEventListener('input', ustawCiecie);
     ustawCiecie();

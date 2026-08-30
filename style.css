@@ -226,9 +226,11 @@ a{ color:inherit; }
   box-shadow:0 0 0 1px rgba(43,33,26,.25);
   pointer-events:none;
 }
-/* Etykiety w rogach. „Przed" leży w przycinanej warstwie, więc znika razem ze
-   zdjęciem, które opisuje — po zsunięciu suwaka zostaje samo „Po". Dla czytnika
-   ekranu są zbędne, bo to samo mówią opisy zdjęć. */
+/* Etykiety w rogach. Każda gaśnie, gdy jej zdjęcie schodzi z kadru: przy suwaku
+   do końca w lewo widać samo „po", więc znika „Przed", a przy suwaku do końca
+   w prawo odwrotnie. Krycie wpisuje skrypt wprost w styl elementu, a tutaj jest
+   tylko przejście. Bez skryptu obie etykiety po prostu zostają widoczne. Dla
+   czytnika ekranu są zbędne — to samo mówią opisy obu zdjęć. */
 .metam__etykieta{
   position:absolute; top:.7rem; z-index:1;
   padding:.32rem .7rem; border-radius:2px;
@@ -236,9 +238,13 @@ a{ color:inherit; }
   color:#FBF7F2; font-size:.62rem; font-weight:600;
   letter-spacing:.2em; text-transform:uppercase; line-height:1;
   pointer-events:none;
+  transition:opacity .25s var(--ease);
 }
 .metam__etykieta--przed{ left:.7rem; }
 .metam__etykieta--po{ right:.7rem; }
+@media (prefers-reduced-motion: reduce){
+  .metam__etykieta{ transition:none; }
+}
 /* Uchwyt rysujemy na kciuku natywnego suwaka — obsługa myszy, dotyku i klawiatury
    jest wtedy za darmo. Suwak wystaje poza kadr o pół szerokości uchwytu z każdej
    strony: bez tego środek kciuka nie dojeżdża do krawędzi zdjęcia i na końcach
