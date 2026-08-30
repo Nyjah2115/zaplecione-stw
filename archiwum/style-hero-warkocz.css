@@ -173,96 +173,70 @@ a{ color:inherit; }
 .nav__burger[aria-expanded="true"] span:first-child{ transform:translateY(3.5px) rotate(45deg); }
 .nav__burger[aria-expanded="true"] span:last-child{ transform:translateY(-3.5px) rotate(-45deg); }
 
-/* ---------- Hero — metamorfoza przed / po ---------- */
-/* Poprzednie hero (warkocz przewijany klatkami na canvasie) leży w archiwum/
-   pod nazwą *-hero-warkocz.*, razem z klatkami w media/warkocz-klatki. */
+/* ---------- Hero — warkocz ciągnięty scrollem ---------- */
+/* Sekcja ma kilka ekranów wysokości; scena w środku jest przyklejona, a pozycja
+   scrolla wybiera klatkę z sekwencji rysowanej na canvasie. */
 .hero{
   position:relative;
-  min-height:100svh;
-  padding:calc(var(--nav-h) + var(--space-5)) clamp(1rem,4vw,3rem) var(--space-6);
+  height:100svh;
+  padding:0;              /* nadpisuje wspólny padding sekcji — scena ma być pełnoekranowa */
   background:var(--paper);
-  display:grid; align-items:center;
 }
-.hero__inner{
-  width:100%; max-width:var(--maxw); margin-inline:auto;
-  display:grid; grid-template-columns:auto 1fr; gap:clamp(2rem,5vw,5rem);
-  align-items:center;
+.hero__scena{
+  position:sticky; top:0;
+  height:100svh; overflow:hidden;
+  display:grid; place-items:center;
 }
-.hero__tresc{ min-width:0; }
-
-/* --- suwak metamorfozy --- */
-/* Zdjęcie jest wąskie i wysokie (232×472), więc prowadzi je wysokość, a szerokość
-   dolicza się z proporcji. Inaczej przy szerokim oknie karta wychodziła poniżej
-   ekranu razem z podpisem. */
-.metam{ margin:0; width:auto; --uchwyt:2.6rem; }
-.metam__kadr{
-  position:relative; aspect-ratio:232 / 472; overflow:hidden;
-  height:min(68svh, 30rem); width:auto;
-  border-radius:3px; border:1px solid var(--line);
-  box-shadow:0 26px 60px rgba(43,33,26,.20);
-  background:var(--paper-2);
-  touch-action:pan-y;   /* pion zostawiamy stronie, poziom bierze suwak */
-}
-.metam__kadr img{
+.hero__canvas{
   position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; display:block; user-select:none; -webkit-user-drag:none;
+  display:block; background:#F6EFE6;
 }
-/* Warstwa „przed" leży na wierzchu i jest przycinana od prawej. --ciecie ustawia
-   skrypt z pozycji suwaka; bez skryptu zostaje 50% i zdjęcia i tak widać oba. */
-.metam__przed-warstwa{
-  position:absolute; inset:0;
-  clip-path:inset(0 calc(100% - var(--ciecie, 50%)) 0 0);
+.hero__alt{
+  position:absolute; width:1px; height:1px; overflow:hidden;
+  clip-path:inset(50%); white-space:nowrap;
 }
-.metam__linia{
-  position:absolute; top:0; bottom:0; left:var(--ciecie, 50%);
-  width:2px; margin-left:-1px; background:var(--paper);
-  box-shadow:0 0 0 1px rgba(43,33,26,.25);
+
+/* Kolejne „przystanki" tekstowe. Widoczność przełącza skrypt klasą, a nie CSS-em,
+   bo progi zależą od postępu przewijania, nie od breakpointów. */
+.hero__krok{
+  position:absolute;
+  /* bez z-index: kroki i tak malują się nad canvasem (są dalej w DOM), a brak
+     własnego kontekstu układania pozwala logo wtopić się w kadr przez multiply */
+  right:clamp(1rem,6vw,6rem); left:auto;
+  width:min(52ch, 46vw);
+  text-align:left;
+  opacity:0;
+  /* --dryf ustawia skrypt z pozycji scrolla: napisy zjeżdżają w dół razem
+     z warkoczem. Do tego dochodzi stałe 26px, z którego tekst wjeżdża przy
+     pojawieniu się. */
+  transform:translateY(calc(26px + var(--dryf, 0px)));
+  /* wychodzący tekst gaśnie szybko, wchodzący startuje z opóźnieniem — inaczej
+     przez chwilę nakładałyby się dwa akapity w tym samym miejscu */
+  transition:opacity .3s var(--ease), transform .3s var(--ease);
   pointer-events:none;
 }
-/* Uchwyt rysujemy na kciuku natywnego suwaka — dzięki temu obsługa myszy,
-   dotyku i klawiatury jest za darmo i zgodna z tym, czego oczekuje czytnik.
-   Suwak wystaje poza kadr o pół szerokości uchwytu z każdej strony. Bez tego
-   środek kciuka nigdy nie dojeżdża do krawędzi zdjęcia i przy krańcach skali
-   zostawał pasek drugiej wersji, którego nie dało się schować. Kadr ma
-   overflow:hidden, więc na końcach widać po prostu połowę kółka. */
-.metam__suwak{
-  position:absolute; top:0; bottom:0;
-  left:calc(var(--uchwyt) / -2); width:calc(100% + var(--uchwyt));
-  margin:0; padding:0; background:none; border:0;
-  -webkit-appearance:none; appearance:none; cursor:ew-resize;
-}
-.metam__suwak:focus{ outline:none; }
-.metam__suwak:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
-.metam__suwak::-webkit-slider-thumb{
-  -webkit-appearance:none; appearance:none;
-  width:var(--uchwyt); height:var(--uchwyt); border-radius:50%; cursor:ew-resize;
-  background:var(--paper); border:1px solid var(--line);
-  box-shadow:0 6px 18px rgba(43,33,26,.28);
-}
-.metam__suwak::-moz-range-thumb{
-  width:var(--uchwyt); height:var(--uchwyt); border-radius:50%; cursor:ew-resize;
-  background:var(--paper); border:1px solid var(--line);
-  box-shadow:0 6px 18px rgba(43,33,26,.28);
-}
-.metam__suwak::-moz-range-track{ background:none; border:0; }
-.metam figcaption{
-  margin-top:var(--space-2); font-size:.82rem; color:var(--ink-soft);
-  max-width:26rem; line-height:1.5;
+.hero__krok.is-widoczny{
+  opacity:1; transform:translateY(var(--dryf, 0px)); pointer-events:auto;
+  transition:opacity .55s var(--ease) .3s, transform .75s var(--ease) .3s;
 }
 
-/* ---------- Poznajmy się ---------- */
-.poznajmy{ max-width:var(--maxw); margin-inline:auto; }
-.poznajmy__inner{
-  display:grid; grid-template-columns:auto 1fr; gap:var(--space-4); align-items:center;
+/* portret przy nagłówku „kim jesteśmy" */
+.hero__osoba{ display:flex; align-items:flex-end; gap:var(--space-3); margin-bottom:var(--space-3); }
+.hero__osoba .eyebrow{ margin-bottom:.4rem; }
+/* tekst obok portretu musi móc się zwężać, inaczej flex pozwala mu wyjść poza blok */
+.hero__osoba > div{ min-width:0; }
+.hero__osoba .hero__title{ margin:0; font-size:clamp(1.7rem,3vw,2.7rem); }
+.hero__portret{
+  flex:0 0 auto; width:12.5rem; height:15.6rem;
+  border-radius:4px; object-fit:cover; object-position:center top;
+  border:1px solid var(--line);
+  box-shadow:0 18px 40px rgba(43,33,26,.18);
 }
-.poznajmy__portret{
-  width:15rem; height:18.7rem; object-fit:cover; object-position:center 22%;
-  border-radius:2px; border:1px solid var(--line);
-  box-shadow:0 20px 44px rgba(43,33,26,.14);
-}
-.poznajmy__txt h2{ margin-top:.3rem; }
-.poznajmy__txt .lead{ margin-top:var(--space-3); }
+/* gdy pliku ze zdjęciem jeszcze nie ma, skrypt chowa portret i zostaje sam tekst */
+.hero__osoba.bez-zdjecia .hero__portret{ display:none; }
 
+.hero__title{ font-size:clamp(2.4rem,5.4vw,4.4rem); margin:0 0 var(--space-3); }
+.hero__title--male{ font-size:clamp(2rem,4.2vw,3.4rem); }
 /* ---------- Logo w hero ---------- */
 /* Nazwa krojem z logo (plik -2, szeryfowy). W tle hero leci już wielki warkocz,
    więc pierścień z logo dublował ten sam motyw — zostaje sam napis. */
@@ -287,14 +261,26 @@ a{ color:inherit; }
 }
 @media (prefers-reduced-motion: reduce){ .hero__nazwa{ animation:none; } }
 
-/* nazwa + miasto tworzą jeden blok nagłówka */
+/* Logo ma wycięte tło (kanał alfa liczony od odległości do kremowego tła oryginału),
+   więc kładzie się na kadrze bez prostokąta. Wcześniejsza próba z `mix-blend-mode`
+   nie działała: `.hero__krok` tworzył własny kontekst układania i nie było z czym mieszać. */
 .hero__logo{
   margin:0 0 var(--space-3);
+}
+.hero__logo img{
+  width:clamp(280px, 34vw, 460px);
+  height:auto;
+  animation:logoWchodzi 1.1s var(--ease) .2s both;
 }
 @keyframes logoWchodzi{
   from{ opacity:0; transform:scale(.94); }
   to  { opacity:1; transform:none; }
 }
+
+@media (prefers-reduced-motion: reduce){
+  .hero__logo img{ animation:none; }
+}
+.hero__title span, .hero__title em{ display:block; }
 .hero__lead{ color:var(--ink-soft); max-width:44ch; margin:0 0 var(--space-4);
   font-size:clamp(1rem,1.35vw,1.1rem); }
 .hero__cta{ display:flex; gap:var(--space-2); flex-wrap:wrap; }
@@ -308,20 +294,38 @@ a{ color:inherit; }
   animation:mysz 1.8s ease-in-out infinite; }
 @keyframes mysz{ 0%,100%{ transform:translateY(0); opacity:1 } 60%{ transform:translateY(12px); opacity:0 } }
 
+@media (max-width:760px){
+}
+
 @media (max-width:900px){
-  /* Zdjęcie idzie nad tekst — obok siebie zostawałaby na oba za wąska kolumna. */
-  .hero__inner{ grid-template-columns:1fr; gap:var(--space-4); justify-items:start; }
-  .metam{ --uchwyt:2rem; }
-  .metam__kadr{ height:min(46svh, 19rem); }
-  .hero__nazwa{ width:100%; max-width:260px; }
+  /* Ten sam układ co na dużym ekranie: warkocz po lewej, treść po prawej.
+     Wcześniej była tu kremowa karta na pół ekranu, która zasłaniała warkocz. */
+  .hero__krok{
+    left:auto; right:clamp(.75rem,4vw,1.5rem);
+    /* Kolumna tekstu zaczyna się tam, gdzie kończy się warkocz (46% szerokości
+       z kadrowania w script.js), z kilkoma pikselami zapasu. */
+    width:min(47%, 320px);
+    text-align:left;
+    background:none; backdrop-filter:none; -webkit-backdrop-filter:none;
+    padding:0; border-radius:0;
+  }
+  .hero__nazwa{ width:100%; max-width:220px; }
   .hero__miasto{ font-size:.62rem; letter-spacing:.22em; margin-top:.4rem; }
-  .hero__lead{ font-size:.9rem; line-height:1.55; margin-bottom:var(--space-3); }
+  .hero__lead{ font-size:.85rem; line-height:1.5; margin-bottom:var(--space-3); }
   .hero__cta{ justify-content:flex-start; gap:.5rem; }
   .hero__cta .btn{ min-height:44px; padding:.6rem .85rem; font-size:.66rem; letter-spacing:.06em; }
+  .hero__osoba{ flex-direction:column; align-items:flex-start; text-align:left; gap:.6rem; }
+  .hero__portret{ width:92px; height:115px; }
+  .hero__osoba .hero__title{ font-size:1.35rem; }
   .hero__scroll{ display:none; }
 }
 
 @media (prefers-reduced-motion: reduce){
+  /* Przewijanie klatek zostaje — steruje nim wprost ruch palca użytkownika i nic
+     nie dzieje się samo. Wyłączamy tylko to, co animuje się bez jego udziału:
+     wejścia tekstu i pełzającą poświatę w tle. */
+  .hero__krok{ opacity:0; transition:none; }
+  .hero__krok.is-widoczny{ opacity:1; transform:none; transition:none; }
   .hero__scroll span{ animation:none; }
 }
 

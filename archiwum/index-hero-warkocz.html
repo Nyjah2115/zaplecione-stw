@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Prata&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=14">
+<link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
 
@@ -55,29 +55,15 @@
 
 <main id="tresc">
 
-<!-- ============ HERO — metamorfoza przed / po ============ -->
+<!-- ============ HERO — warkocz ciągnięty scrollem ============ -->
+<!-- Sekcja jest wysoka na kilka ekranów; scena w środku jest przyklejona,
+     a pozycja scrolla przewija sekwencję klatek na canvasie. -->
 <section class="hero" id="top">
-  <!-- Metamorfoza jako suwak: dwie połówki jednego zdjęcia z Instagrama, rozcięte
-       na osi kolażu. Górna warstwa jest przycinana clip-path, a szerokość cięcia
-       bierze się z pozycji suwaka — to zwykły <input type="range">, więc działa
-       też z klawiatury i czytnika ekranu, bez własnej obsługi dostępności. -->
-  <div class="hero__inner">
-    <figure class="metam" id="metam">
-      <div class="metam__kadr">
-        <img class="metam__po" src="media/foto/meta-po.jpg" width="232" height="472"
-             alt="Te same włosy dzisiaj: dłuższe, gęste i lśniące, sięgające poniżej łopatek">
-        <div class="metam__przed-warstwa">
-          <img class="metam__przed" src="media/foto/meta-przed.jpg" width="232" height="472"
-               alt="Włosy w kwietniu 2025: przerzedzone, matowe, kończące się nad łopatkami">
-        </div>
-        <span class="metam__linia" aria-hidden="true"></span>
-        <input class="metam__suwak" id="metamSuwak" type="range" min="0" max="100" value="50"
-               aria-label="Przeciągnij, żeby porównać włosy przed zabiegami i dzisiaj">
-      </div>
-      <figcaption>Od kwietnia 2025: botoks, cięcie, 100&nbsp;g na 60&nbsp;cm i korekty co trzy miesiące. Przeciągnij suwak.</figcaption>
-    </figure>
+  <div class="hero__scena">
+    <canvas class="hero__canvas" id="heroCanvas" aria-hidden="true"></canvas>
+    <p class="hero__alt">Warkocz z długich, jasnych włosów ciągnący się w dół kadru.</p>
 
-    <div class="hero__tresc">
+    <div class="hero__krok is-widoczny" data-od="0" data-do="0.42">
       <p class="eyebrow">Salon fryzjerski · Staszica 17</p>
       <h1 class="hero__logo">
         <svg class="hero__nazwa" viewBox="331 668 884 208" aria-hidden="true" focusable="false">
@@ -92,22 +78,21 @@
         <a class="btn btn--ghost" href="#metamorfozy">Zobacz metamorfozy</a>
       </div>
     </div>
-  </div>
 
-  <a class="hero__scroll" href="#poznajmy" aria-label="Przewiń w dół"><span></span></a>
-</section>
-
-<!-- ============ POZNAJMY SIĘ ============ -->
-<section class="poznajmy" id="poznajmy">
-  <div class="poznajmy__inner">
-    <img class="poznajmy__portret reveal" id="portretAnny"
-         src="media/foto/anna.jpg" width="200" height="250"
-         alt="Anna Przypolska, właścicielka salonu Zaplecione_Stw">
-    <div class="poznajmy__txt">
-      <p class="eyebrow reveal">Poznajmy się</p>
-      <h2 class="reveal">Jestem Ania<em> i zajmuję się włosami</em></h2>
-      <p class="lead reveal">Przedłużam, koloryzuję, regeneruję i strzygę, a przedłużania uczę też inne fryzjerki. Najczęściej trafiają do mnie włosy po nieudanych zabiegach gdzie indziej — i zawsze mówię wprost, ile potrwa ich naprawa.</p>
+    <div class="hero__krok" data-od="0.48" data-do="1">
+      <div class="hero__osoba">
+        <img class="hero__portret" id="portretAnny"
+             src="media/foto/anna.jpg" width="200" height="250"
+             alt="Anna Przypolska, właścicielka salonu Zaplecione_Stw">
+        <div>
+          <p class="eyebrow">Poznajmy się</p>
+          <h2 class="hero__title hero__title--male"><span>Jestem Ania</span><em>i zajmuję się włosami</em></h2>
+        </div>
+      </div>
+      <p class="hero__lead">Przedłużam, koloryzuję, regeneruję i strzygę, a przedłużania uczę też inne fryzjerki. Najczęściej trafiają do mnie włosy po nieudanych zabiegach gdzie indziej — i zawsze mówię wprost, ile potrwa ich naprawa.</p>
     </div>
+
+    <a class="hero__scroll" href="#certyfikat" aria-label="Przewiń w dół"><span></span></a>
   </div>
 </section>
 
@@ -507,6 +492,6 @@
 <!-- ?v= przy arkuszu i skrypcie: bez tego przeglądarka trzyma poprzednią
      wersję z cache i po wgraniu poprawki trzeba odświeżać z Ctrl+Shift+R.
      Numer podbijam przy każdej zmianie w tych dwóch plikach. -->
-<script src="script.js?v=14"></script>
+<script src="script.js?v=11"></script>
 </body>
 </html>
