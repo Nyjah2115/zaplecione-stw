@@ -156,6 +156,25 @@ a{ color:inherit; }
   box-shadow:0 8px 20px rgba(43,33,26,.10);
 }
 .btn--sm:hover svg{ background:var(--gold-deep); fill:var(--paper); }
+/* Słuchawka dzwoni: kilka coraz słabszych wychyleń i wraca do pionu. Kółko pod
+   spodem jest okrągłe, więc obrót widać wyłącznie na samej słuchawce. */
+@keyframes dzwoni{
+  0%, 100%{ transform:rotate(0deg); }
+  12%{ transform:rotate(-16deg); }
+  26%{ transform:rotate(13deg); }
+  40%{ transform:rotate(-10deg); }
+  54%{ transform:rotate(7deg); }
+  68%{ transform:rotate(-4deg); }
+  84%{ transform:rotate(2deg); }
+}
+.btn--sm:hover svg,
+.btn--sm:focus-visible svg,
+.btn--sm:active svg{ animation:dzwoni .75s var(--ease); }
+@media (prefers-reduced-motion: reduce){
+  .btn--sm:hover svg,
+  .btn--sm:focus-visible svg,
+  .btn--sm:active svg{ animation:none; }
+}
 
 /* ---------- Nawigacja ---------- */
 /* Pasek jest nieprzezroczysty od pierwszej sekundy — pod spodem leci ciemne
