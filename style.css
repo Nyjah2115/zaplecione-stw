@@ -291,10 +291,11 @@ html.nav-ukryta .nav{
 }
 
 @media (prefers-reduced-motion: reduce){
-  /* bez przewijania klatek: jeden statyczny kadr i od razu widoczny pierwszy tekst */
-  .hero{ height:100svh; }
-  .hero__krok{ opacity:0; }
-  .hero__krok.is-widoczny{ opacity:1; transform:none; }
+  /* Przewijanie klatek zostaje — steruje nim wprost ruch palca użytkownika i nic
+     nie dzieje się samo. Wyłączamy tylko to, co animuje się bez jego udziału:
+     wejścia tekstu i pełzającą poświatę w tle. */
+  .hero__krok{ opacity:0; transition:none; }
+  .hero__krok.is-widoczny{ opacity:1; transform:none; transition:none; }
   .hero__scroll span{ animation:none; }
 }
 
@@ -310,16 +311,19 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 }
 .iso__txt .lead + .lead{ margin-top:var(--space-3); }
 .iso__txt .lead{ margin-top:var(--space-3); }
-/* zdjęcie certyfikatu wchodzi na miejsce tabelki dopiero, gdy plik istnieje */
+/* Zdjęcie certyfikatu jest widoczne DOMYŚLNIE, a tabelka z danymi tylko wtedy,
+   gdy skrypt zgłosi, że pliku nie da się wczytać. Wcześniej było odwrotnie i przy
+   wyłączonym albo przerwanym JS zdjęcie w ogóle się nie pokazywało. */
 .iso__zdjecie{
-  display:none; width:100%; height:auto; border-radius:4px;
+  display:block; width:100%; height:auto; border-radius:4px;
   border:1px solid var(--line);
   box-shadow:0 20px 44px rgba(43,33,26,.16);
 }
-.iso__dowod.ma-zdjecie .iso__zdjecie{ display:block; }
-.iso__dowod.ma-zdjecie .iso__dane{ display:none; }
+.iso__dowod.bez-zdjecia .iso__zdjecie{ display:none; }
+.iso__dowod.bez-zdjecia .iso__dane{ display:block; }
 
 .iso__dane{
+  display:none;
   margin:0; padding:var(--space-4);
   background:var(--paper); border:1px solid var(--line); border-radius:4px;
   box-shadow:0 14px 32px rgba(43,33,26,.08);

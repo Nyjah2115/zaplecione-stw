@@ -140,14 +140,9 @@
       }
     }
 
-    if (reduced) {
-      // bez przewijania klatek — pokazujemy jeden kadr i pierwszy tekst
-      document.documentElement.classList.remove('nav-ukryta');
-      wczytaj(Math.round(KLATEK * 0.45));
-      if (kroki[0]) kroki[0].classList.add('is-widoczny');
-    } else {
-      document.documentElement.classList.add('nav-ukryta');
-    }
+    // Przy ograniczonym ruchu pasek nawigacji nie chowa się na start — reszta hero
+    // (przewijanie klatek) działa tak samo, bo steruje nim sam użytkownik.
+    if (!reduced) document.documentElement.classList.add('nav-ukryta');
   }
 
   /* --- pasek nawigacji po scrollu --- */
@@ -172,6 +167,21 @@
       links.classList.remove('is-open');
     }
   });
+
+  /* --- certyfikat ISO: awaryjne odsłonięcie tabelki ---
+     Zdjęcie jest widoczne domyślnie (CSS). Jeśli pliku nie da się wczytać,
+     dokładamy klasę i w to miejsce wraca tabelka z danymi. */
+  var zdjecieIso = document.getElementById('zdjecieIso');
+  var isoDowod = document.getElementById('isoDowod');
+  if (zdjecieIso && isoDowod) {
+    var brakIso = function () { isoDowod.classList.add('bez-zdjecia'); };
+    zdjecieIso.addEventListener('error', brakIso);
+    if (zdjecieIso.complete && !zdjecieIso.naturalWidth) brakIso();
+  }
+
+  /* --- rok w stopce --- */
+  var rok = document.getElementById('rok');
+  if (rok) rok.textContent = new Date().getFullYear();
 
   /* --- wejścia sekcji --- */
   var items = document.querySelectorAll('.reveal');
@@ -199,18 +209,4 @@
 
   items.forEach(function (el) { io.observe(el); });
 
-  /* --- zdjęcie certyfikatu ISO ---
-     Jest opcjonalne: kiedy plik istnieje, zastępuje tabelkę z danymi; kiedy go nie ma,
-     tabelka zostaje i sekcja nadal ma treść. */
-  var zdjecieIso = document.getElementById('zdjecieIso');
-  var isoDowod = document.getElementById('isoDowod');
-  if (zdjecieIso && isoDowod) {
-    var pokazIso = function () { isoDowod.classList.add('ma-zdjecie'); };
-    if (zdjecieIso.complete && zdjecieIso.naturalWidth) pokazIso();
-    else zdjecieIso.addEventListener('load', pokazIso);
-  }
-
-  /* --- rok w stopce --- */
-  var rok = document.getElementById('rok');
-  if (rok) rok.textContent = new Date().getFullYear();
 })();
