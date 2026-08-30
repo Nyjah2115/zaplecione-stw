@@ -397,36 +397,36 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 
 /* ---------- Usługi / mozaika ---------- */
 .uslugi{ max-width:var(--maxw); margin-inline:auto; }
-.mozaika{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-2); }
+/* Kafelki z tekstem na zdjęciu wymagały ciemnej powłoki tak gęstej, że ze zdjęcia
+   zostawał cień — a to właśnie zdjęcia mają tu coś pokazać. Do tego szeroki i wysoki
+   kafel rozbijały siatkę na nierówne pola i całość robiła się niespokojna.
+   Teraz karta jest podzielona: zdjęcie u góry, w pełnych barwach i bez niczego na
+   wierzchu, opis pod nim na papierowym tle. Wszystkie karty tej samej wielkości. */
+.mozaika{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-3);
+}
 .tile{
-  position:relative; overflow:hidden; border-radius:4px; min-height:290px;
-  display:flex; align-items:flex-end; isolation:isolate;
+  position:relative; overflow:hidden; border-radius:4px;
+  display:grid; grid-template-rows:auto 1fr;
+  background:var(--paper);
   border:1px solid var(--line);
   box-shadow:0 12px 30px rgba(43,33,26,.07);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
 }
-/* kafle zostają ciemne — biały tekst musi się trzymać zdjęcia */
+.tile:hover{ transform:translateY(-4px); box-shadow:0 18px 40px rgba(43,33,26,.12); }
 .tile::before{
-  content:""; position:absolute; inset:0; z-index:-2;
+  content:""; grid-row:1; aspect-ratio:4 / 3;
   background-image:var(--bg); background-size:cover; background-position:center;
-  transform:scale(1.02);
-  transition:transform .7s var(--ease), filter .7s var(--ease);
-  filter:grayscale(.15) brightness(.82);
+  border-bottom:1px solid var(--line);
 }
-.tile::after{
-  content:""; position:absolute; inset:0; z-index:-1;
-  background:linear-gradient(to top, rgba(28,21,16,.95) 6%, rgba(28,21,16,.68) 46%, rgba(28,21,16,.14) 100%);
-}
-.tile:hover::before{ transform:scale(1.07); filter:grayscale(0) brightness(.9); }
-.tile--wide{ grid-column:span 2; }
-.tile--tall{ grid-row:span 2; min-height:37.5rem; }
-.tile__body{ padding:var(--space-3); color:#FBF7F2; }
-.tile__body h3{ color:#FBF7F2; }
-.tile__body p{ color:rgba(251,247,242,.85); font-size:.92rem; margin:.6rem 0 0; }
-.tile__body strong{ color:#FBF7F2; font-weight:600; }
+.tile__body{ grid-row:2; padding:var(--space-3); }
+.tile__body h3{ font-size:clamp(1.1rem,1.6vw,1.35rem); }
+.tile__body p{ color:var(--ink-soft); font-size:.92rem; margin:.6rem 0 0; }
+.tile__body strong{ color:var(--ink); font-weight:600; }
 .tile__tag{
   display:inline-block; margin-top:var(--space-2);
   font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
-  color:#F0D9A8; border:1px solid rgba(240,217,168,.5); padding:.3rem .7rem; border-radius:2px;
+  color:var(--gold-deep); border:1px solid var(--line); padding:.3rem .7rem; border-radius:2px;
 }
 
 .szkolenia{
@@ -744,8 +744,6 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 /* ---------- Responsywność ---------- */
 @media (max-width:1024px){
   .mozaika{ grid-template-columns:repeat(2,1fr); }
-  .tile--wide{ grid-column:span 2; }
-  .tile--tall{ grid-row:auto; min-height:18rem; }
   .skup__inner, .kontakt__inner, .iso__inner{ grid-template-columns:1fr; }
   /* portret i tekst jeden pod drugim — obok siebie zostaje na oba za wąsko */
   .poznajmy__inner{ grid-template-columns:1fr; gap:var(--space-3); }
@@ -819,7 +817,6 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
   .nav .btn--sm span{ display:none; }
   .nav .btn--sm{ padding:.55rem .75rem; }
   .mozaika{ grid-template-columns:1fr; }
-  .tile--wide{ grid-column:auto; }
   /* Zdjęcia w galerii to zrzuty z Instagrama — w dwóch kolumnach po 165 px
      wypalone w nie napisy robiły się nieczytelne. Jedna kolumna na ekran. */
   .galeria__grid{ grid-template-columns:1fr; gap:var(--space-3); }
