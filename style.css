@@ -759,46 +759,43 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
   position:absolute; width:1px; height:1px; overflow:hidden;
   clip-path:inset(50%); white-space:nowrap;
 }
+/* Ikony zachowują się tak samo jak przyciski: lekkie powiększenie całości
+   i jeden podskok znaku. Wcześniej działy się tu trzy rzeczy naraz — ciemne
+   wypełnienie wjeżdżało od dołu, znak rósł o 12%, a całość unosiła się o 3 px
+   z cieniem — i było tego za dużo jak na kółko wielkości paznokcia. */
 .ikona{
-  position:relative; overflow:hidden;
+  position:relative;
   display:grid; place-items:center;
   width:3rem; height:3rem; flex:0 0 3rem;
   border:1px solid rgba(43,33,26,.24); border-radius:50%;
   color:var(--ink); text-decoration:none;
-  transition:color .3s var(--ease), border-color .3s var(--ease),
-             transform .3s var(--ease), box-shadow .3s var(--ease);
-}
-/* ciemne wypełnienie wjeżdża od dołu spod ikony */
-.ikona::before{
-  content:""; position:absolute; inset:0; z-index:0;
-  background:var(--ink); border-radius:50%;
-  transform:scale(0); transform-origin:bottom center;
-  transition:transform .35s var(--ease);
+  transition:color .25s var(--ease), border-color .25s var(--ease),
+             transform .2s var(--ease);
 }
 .ikona svg{
-  position:relative; z-index:1;
   width:1.2rem; height:1.2rem; fill:currentColor;
-  transition:transform .35s var(--ease);
 }
 .ikona:hover, .ikona:focus-visible{
-  color:var(--paper); border-color:var(--ink);
-  transform:translateY(-3px);
-  box-shadow:0 10px 22px rgba(43,33,26,.22);
+  color:var(--gold-deep); border-color:var(--gold);
+  transform:scale(1.08);
 }
-.ikona:hover::before, .ikona:focus-visible::before{ transform:scale(1); }
-.ikona:hover svg, .ikona:focus-visible svg{ transform:scale(1.12); }
-.ikona:active{ transform:translateY(-1px); }
+.ikona:active{ transform:scale(.97); }
+/* ten sam podskok co litery w przyciskach */
+@keyframes podskokZnaku{
+  0%, 100%{ transform:translateY(0); }
+  45%{ transform:translateY(-.22em); }
+}
+.ikona:hover svg, .ikona:focus-visible svg{ animation:podskokZnaku .45s var(--ease); }
 
 /* wariant do paska nawigacji — mniejszy, żeby nie konkurował z nazwą */
 .ikona--mala{ width:2.25rem; height:2.25rem; flex:0 0 2.25rem; }
 .ikona--mala svg{ width:.95rem; height:.95rem; }
-.ikona--mala:hover, .ikona--mala:focus-visible{ transform:translateY(-2px);
-  box-shadow:0 6px 14px rgba(43,33,26,.18); }
+.ikona--mala:hover, .ikona--mala:focus-visible{ transform:scale(1.1); }
 
 @media (prefers-reduced-motion: reduce){
-  .ikona, .ikona::before, .ikona svg{ transition:none; }
-  .ikona:hover, .ikona:focus-visible{ transform:none; box-shadow:none; }
-  .ikona:hover svg, .ikona:focus-visible svg{ transform:none; }
+  .ikona, .ikona svg{ transition:none; }
+  .ikona:hover, .ikona:focus-visible, .ikona:active{ transform:none; }
+  .ikona:hover svg, .ikona:focus-visible svg{ animation:none; }
 }
 .kontakt__map{
   border:1px solid var(--line); border-radius:4px; overflow:hidden; min-height:420px;
