@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Prata&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=24">
+<link rel="stylesheet" href="style.css?v=25">
 </head>
 <body>
 
@@ -57,25 +57,27 @@
 
 <!-- ============ HERO — metamorfoza przed / po ============ -->
 <section class="hero" id="top">
-  <!-- Metamorfoza jako para zdjęć obok siebie. Suwak z przecieraniem wymagał, żeby
-       oba kadry były zrobione tak samo — a te dwa nie są: jeden pokazuje całą głowę
-       w salonie, drugi zbliżenie na same włosy. Linia podziału wypadała w poprzek
-       dwóch różnych ujęć i całość wyglądała krzywo. Zestawienie obok siebie niczego
-       takiego nie obiecuje i czyta się od razu. -->
+  <!-- Metamorfoza jako suwak. Oba kadry są dopasowane tak, żeby włosy zajmowały
+       90% szerokości ramki i stały na jej środku — bez tego linia podziału biegła
+       w poprzek dwóch różnych ujęć i całość wyglądała krzywo. Warstwa „przed" jest
+       przycinana clip-path, a szerokość cięcia bierze się z pozycji suwaka: to
+       zwykły <input type="range">, więc mysz, dotyk, klawiatura i czytnik ekranu
+       działają bez pisania własnej obsługi. -->
   <div class="hero__inner">
-    <div class="metam">
+    <div class="metam" id="metam">
       <p class="eyebrow metam__naglowek">Metamorfoza</p>
-      <div class="metam__para">
-        <figure class="metam__panel">
-          <img src="media/foto/meta-przed.jpg" width="640" height="853"
+      <div class="metam__kadr">
+        <img class="metam__po" src="media/foto/meta-po.jpg" width="640" height="853"
+             alt="Te same włosy po zabiegach: gładkie, lśniące, równo ułożone na całej długości">
+        <div class="metam__przed-warstwa">
+          <img class="metam__przed" src="media/foto/meta-przed.jpg" width="640" height="853"
                alt="Włosy przed zabiegami: przesuszone, spuszone, z odłamanymi włoskami na całej długości">
-          <figcaption>Przed</figcaption>
-        </figure>
-        <figure class="metam__panel">
-          <img src="media/foto/meta-po.jpg" width="640" height="853"
-               alt="Te same włosy po zabiegach: gładkie, lśniące, równo ułożone na całej długości">
-          <figcaption>Po</figcaption>
-        </figure>
+          <span class="metam__etykieta metam__etykieta--przed" aria-hidden="true">Przed</span>
+        </div>
+        <span class="metam__etykieta metam__etykieta--po" aria-hidden="true">Po</span>
+        <span class="metam__linia" aria-hidden="true"></span>
+        <input class="metam__suwak" id="metamSuwak" type="range" min="0" max="100" value="50"
+               aria-label="Przeciągnij, żeby porównać włosy przed zabiegami i po nich">
       </div>
     </div>
 
@@ -509,6 +511,6 @@
 <!-- ?v= przy arkuszu i skrypcie: bez tego przeglądarka trzyma poprzednią
      wersję z cache i po wgraniu poprawki trzeba odświeżać z Ctrl+Shift+R.
      Numer podbijam przy każdej zmianie w tych dwóch plikach. -->
-<script src="script.js?v=24"></script>
+<script src="script.js?v=25"></script>
 </body>
 </html>
