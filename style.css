@@ -329,22 +329,6 @@ a{ color:inherit; }
   .hero__scroll span{ animation:none; }
 }
 
-/* ---------- Poznajmy się ---------- */
-/* Blok o Ani mieszkał wcześniej w hero jako drugi krok przewijania. Hero gra teraz
-   samo z siebie i ma jeden ekran, więc nie ma już drugiego kroku — treść dostaje
-   własną sekcję zaraz pod nim, żeby nic z niej nie przepadło. */
-.poznajmy{ max-width:var(--maxw); margin-inline:auto; }
-.poznajmy__inner{
-  display:grid; grid-template-columns:auto 1fr; gap:var(--space-4); align-items:center;
-}
-.poznajmy__portret{
-  width:15rem; height:18.7rem; object-fit:cover; object-position:center 22%;
-  border-radius:2px; border:1px solid var(--line);
-  box-shadow:0 20px 44px rgba(43,33,26,.14);
-}
-.poznajmy__txt h2{ margin-top:.3rem; }
-.poznajmy__txt .lead{ margin-top:var(--space-3); }
-
 /* ---------- Sekcje ---------- */
 section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 .sect__head{ max-width:var(--maxw); margin:0 auto var(--space-5); }
@@ -734,8 +718,6 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
   .tile--wide{ grid-column:span 2; }
   .tile--tall{ grid-row:auto; min-height:18rem; }
   .skup__inner, .kontakt__inner, .iso__inner{ grid-template-columns:1fr; }
-  .poznajmy__inner{ grid-template-columns:1fr; gap:var(--space-3); }
-  .poznajmy__portret{ width:11rem; height:13.7rem; }
   .cennik__para{ grid-template-columns:1fr; }
   /* na wąskim ekranie sam tytuł grupy — podpowiedź zawijałaby się w drugą linijkę */
   .cennik__hint{ display:none; }

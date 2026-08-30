@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Prata&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
 
@@ -63,7 +63,7 @@
     <canvas class="hero__canvas" id="heroCanvas" aria-hidden="true"></canvas>
     <p class="hero__alt">Warkocz z długich, jasnych włosów ciągnący się w dół kadru.</p>
 
-    <div class="hero__krok is-widoczny">
+    <div class="hero__krok is-widoczny" data-od="0" data-do="0.42">
       <p class="eyebrow">Salon fryzjerski · Staszica 17</p>
       <h1 class="hero__logo">
         <svg class="hero__nazwa" viewBox="331 668 884 208" aria-hidden="true" focusable="false">
@@ -79,21 +79,20 @@
       </div>
     </div>
 
-    <a class="hero__scroll" href="#poznajmy" aria-label="Przewiń w dół"><span></span></a>
-  </div>
-</section>
-
-<!-- ============ POZNAJMY SIĘ ============ -->
-<section class="poznajmy" id="poznajmy">
-  <div class="poznajmy__inner">
-    <img class="poznajmy__portret reveal" id="portretAnny"
-         src="media/foto/anna.jpg" width="200" height="250"
-         alt="Anna Przypolska, właścicielka salonu Zaplecione_Stw">
-    <div class="poznajmy__txt">
-      <p class="eyebrow reveal">Poznajmy się</p>
-      <h2 class="reveal">Jestem Ania<em> i zajmuję się włosami</em></h2>
-      <p class="lead reveal">Przedłużam, koloryzuję, regeneruję i strzygę, a przedłużania uczę też inne fryzjerki. Najczęściej trafiają do mnie włosy po nieudanych zabiegach gdzie indziej — i zawsze mówię wprost, ile potrwa ich naprawa.</p>
+    <div class="hero__krok" data-od="0.48" data-do="1">
+      <div class="hero__osoba">
+        <img class="hero__portret" id="portretAnny"
+             src="media/foto/anna.jpg" width="200" height="250"
+             alt="Anna Przypolska, właścicielka salonu Zaplecione_Stw">
+        <div>
+          <p class="eyebrow">Poznajmy się</p>
+          <h2 class="hero__title hero__title--male"><span>Jestem Ania</span><em>i zajmuję się włosami</em></h2>
+        </div>
+      </div>
+      <p class="hero__lead">Przedłużam, koloryzuję, regeneruję i strzygę, a przedłużania uczę też inne fryzjerki. Najczęściej trafiają do mnie włosy po nieudanych zabiegach gdzie indziej — i zawsze mówię wprost, ile potrwa ich naprawa.</p>
     </div>
+
+    <a class="hero__scroll" href="#certyfikat" aria-label="Przewiń w dół"><span></span></a>
   </div>
 </section>
 
@@ -493,6 +492,6 @@
 <!-- ?v= przy arkuszu i skrypcie: bez tego przeglądarka trzyma poprzednią
      wersję z cache i po wgraniu poprawki trzeba odświeżać z Ctrl+Shift+R.
      Numer podbijam przy każdej zmianie w tych dwóch plikach. -->
-<script src="script.js?v=10"></script>
+<script src="script.js?v=11"></script>
 </body>
 </html>

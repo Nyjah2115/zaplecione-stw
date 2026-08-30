@@ -11,6 +11,7 @@
   var KLATEK = 90;
   var hero = document.querySelector('.hero');
   var canvas = document.getElementById('heroCanvas');
+  var kroki = document.querySelectorAll('.hero__krok');
 
   if (hero && canvas) {
     var ctx = canvas.getContext('2d', { alpha: false });
@@ -56,9 +57,8 @@
     // przesuwa się w dół razem z przewijaniem — i ani przez chwilę nie odsłania
     // pustego pola, bo zapas jest zawsze poza ekranem.
     var NADMIAR = 0.22;
-    var rysuj = function (i, postep) {
-      var im = obrazy[i];
-      if (!im || !im.complete || !im.naturalWidth) return;
+    // Jedna klatka sekwencji, z opcjonalną przezroczystością.
+    var polozKlatke = function (im, postep, alfa) {
       var cw = canvas.width, ch = canvas.height;
       var hRys = ch * (1 + NADMIAR);
       var skala = hRys / im.naturalHeight;
@@ -70,6 +70,7 @@
       var x = cel * cw - PRAWA_KRAWEDZ * w;
       var y = -NADMIAR * ch * (1 - postep);
 
+      ctx.globalAlpha = alfa;
       ctx.drawImage(im, x, y, w, hRys);
       // dociągnięcie tła krawędziowym pikselem klatki
       if (x > 0) {
@@ -79,7 +80,26 @@
         ctx.drawImage(im, im.naturalWidth - 2, 0, 2, im.naturalHeight,
                       Math.floor(x + w) - 1, y, cw - (x + w) + 2, hRys);
       }
-      ostatnia = i;
+      ctx.globalAlpha = 1;
+    };
+
+    // Sekwencja ma 90 klatek na cały cykl, czyli około 11 na sekundę — za mało,
+    // żeby ruch był gładki. Zamiast doskakiwać do najbliższej klatki, mieszamy
+    // dwie sąsiednie proporcjonalnie do miejsca pomiędzy nimi. Ekran dostaje
+    // wtedy pełne 60 klatek na sekundę, mimo że materiału jest dziesięć razy mniej.
+    var rysuj = function (postep) {
+      var idx = postep * (KLATEK - 1);
+      var i0 = najblizszaGotowa(Math.floor(idx));
+      if (i0 < 0) return;
+      var im0 = obrazy[i0];
+      polozKlatke(im0, postep, 1);
+
+      var reszta = idx - Math.floor(idx);
+      if (reszta > 0.01) {
+        var i1 = najblizszaGotowa(Math.ceil(idx));
+        if (i1 >= 0 && i1 !== i0) polozKlatke(obrazy[i1], postep, reszta);
+      }
+      ostatnia = i0;
     };
 
     var najblizszaGotowa = function (i) {
@@ -92,9 +112,22 @@
 
     var odswiez = function (postep) {
       biezacyPostep = postep;
-      var i = Math.round(postep * (KLATEK - 1));
-      var gotowa = najblizszaGotowa(i);
-      if (gotowa >= 0) rysuj(gotowa, postep);
+      rysuj(postep);
+
+      // Napisy przełączają się razem ze zjazdem warkocza: na górze cyklu widać
+      // nazwę salonu, w dolnej połowie blok o Ani. Każdy zjeżdża w dół w obrębie
+      // własnego okna, żeby wchodzący zaczynał od zera, a nie w połowie drogi.
+      var DRYF = 90;
+      for (var k = 0; k < kroki.length; k++) {
+        var od = parseFloat(kroki[k].dataset.od);
+        var doo = parseFloat(kroki[k].dataset.do);
+        var widoczny = postep >= od && postep <= doo;
+        kroki[k].classList.toggle('is-widoczny', widoczny);
+        if (widoczny && doo > od) {
+          var lokalny = (postep - od) / (doo - od);
+          kroki[k].style.setProperty('--dryf', (lokalny * DRYF).toFixed(1) + 'px');
+        }
+      }
     };
 
     // pierwsza klatka ma priorytet, reszta doczytuje się w tle
@@ -103,7 +136,7 @@
       im.decoding = 'async';
       im.onload = function () {
         wczytane++;
-        if (i === 0 || Math.round(biezacyPostep * (KLATEK - 1)) === i) rysuj(i, biezacyPostep);
+        if (i === 0 || Math.abs(biezacyPostep * (KLATEK - 1) - i) < 1.5) rysuj(biezacyPostep);
         if (potem) potem();
       };
       im.src = sciezka(i);
@@ -140,7 +173,9 @@
     // potem wraca. Wygładzenie sinusem sprawia, że w punktach zwrotnych prędkość
     // schodzi do zera i zawrócenia w ogóle nie widać — bez tego pętla szarpałaby
     // przy każdym nawrocie.
-    var CYKL = 16000;          // pełne tam i z powrotem, w milisekundach
+    // Pełne tam i z powrotem. Przy 20 s nazwa salonu z przyciskami stoi na ekranie
+    // około 9 s, a blok o Ani około 10 s — obie rzeczy zdąży się przeczytać.
+    var CYKL = 20000;
     var start = null;
     var gra = true;
     var klatkaId = 0;
