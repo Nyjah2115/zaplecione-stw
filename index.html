@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Prata&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=31">
+<link rel="stylesheet" href="style.css?v=32">
 </head>
 <body>
 
@@ -21,11 +21,12 @@
 <a class="skip" href="#tresc">Przejdź do treści</a>
 
 <header class="nav" id="nav">
+  <!-- Nazwa w pasku jest zwykłym tekstem złożonym krojem strony (Prata), a nie
+       wektorem z loga. Wektor został w hero i w stopce, ale tutaj, tuż obok linków
+       i numeru, jego inny krój rzucał się w oczy. -->
   <a class="nav__brand" href="#top">
-    <svg class="nav__nazwa" viewBox="331 668 884 208" aria-hidden="true" focusable="false">
-      <use href="#napisZaplecione"/>
-    </svg>
-    <span class="tylko-czytnik">Zaplecione — strona główna</span>
+    <span class="nav__nazwa">Zaplecione</span>
+    <span class="tylko-czytnik">— strona główna</span>
   </a>
   <div class="nav__spolecznosciowe">
     <a class="ikona ikona--mala" href="https://www.instagram.com/zaplecione_stw/" target="_blank" rel="noopener">
@@ -512,6 +513,6 @@
 <!-- ?v= przy arkuszu i skrypcie: bez tego przeglądarka trzyma poprzednią
      wersję z cache i po wgraniu poprawki trzeba odświeżać z Ctrl+Shift+R.
      Numer podbijam przy każdej zmianie w tych dwóch plikach. -->
-<script src="script.js?v=31"></script>
+<script src="script.js?v=32"></script>
 </body>
 </html>

@@ -165,16 +165,15 @@ a{ color:inherit; }
 }
 
 /* W pasku ta sama nazwa i ten sam krój co w hero. */
-/* Napis siedzi w ramce wyśrodkowanej razem z ogonkiem litery „p”, więc same
-   litery lądują wyżej niż środek paska i logo wygląda, jakby uciekało do góry.
-   Ogonek zajmuje 36 z 208 jednostek ramki — przesuwamy więc napis w dół o
-   połowę tego, czyli o 9% własnej wysokości, i wyrównuje się optycznie
-   z tekstem obok. */
+/* Nazwa w pasku to tekst krojem strony — dzięki temu nie odstaje od linków
+   i nagłówków obok. Wyrównanie optyczne robi się samo, bo to zwykły wiersz
+   tekstu, a nie ramka SVG wyśrodkowana razem z ogonkiem litery „p”. */
 .nav__nazwa{
-  height:1.5rem; width:auto; display:block;
-  fill:var(--ink); color:var(--ink);
-  transform:translateY(9%);
+  font-family:var(--serif); font-size:1.35rem; line-height:1;
+  color:var(--ink); letter-spacing:-.01em; white-space:nowrap;
+  transition:color .2s var(--ease);
 }
+.nav__brand:hover .nav__nazwa{ color:var(--gold-deep); }
 .nav__links{ display:flex; gap:1.75rem; }
 .nav__links a{
   font-size:.8rem; letter-spacing:.09em; text-transform:uppercase; font-weight:500;
