@@ -91,27 +91,52 @@ a{ color:inherit; }
 :focus-visible{ outline:2px solid var(--gold-deep); outline-offset:3px; border-radius:2px; }
 
 /* ---------- Przyciski ---------- */
+/* Kształt i zachowanie wzięte z aardvarkbookclub.com: pigułka zamiast prostokąta,
+   lekkie powiększenie całego przycisku po najechaniu i litery podskakujące jedna
+   po drugiej. Kolory zostają nasze. Litery rozbija skrypt na osobne <span>-y —
+   bez niego przycisk wygląda i działa dokładnie tak jak dotąd, tyle że napis
+   stoi w miejscu. */
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
-  min-height:3rem; padding:.85rem 1.6rem;
+  min-height:3rem; padding:.85rem 1.7rem;
   font-family:var(--sans); font-size:.82rem; font-weight:600;
   letter-spacing:.1em; text-transform:uppercase; text-decoration:none;
-  border:1px solid transparent; border-radius:2px; cursor:pointer;
+  border:1px solid transparent; border-radius:999px; cursor:pointer;
   max-width:100%; text-align:center;
   transition:background .25s var(--ease), color .25s var(--ease),
-             border-color .25s var(--ease), transform .25s var(--ease),
+             border-color .25s var(--ease), transform .2s var(--ease),
              box-shadow .25s var(--ease);
 }
+.btn:hover, .btn:focus-visible{ transform:scale(1.035); }
+.btn:active{ transform:scale(.985); }
 .btn svg{ width:1.05rem; height:1.05rem; fill:currentColor; }
+
+/* Wszystkie litery w jednym opakowaniu — inaczej każda byłaby osobnym elementem
+   flexa i rozdzielałby je odstęp spod gap. */
+.btn__t{ display:inline-block; }
+/* Jedna litera napisu. --i to jej numer w kolejności — z niego bierze się
+   opóźnienie, dzięki czemu podskok przebiega falą od lewej do prawej. */
+.btn__z{
+  display:inline-block; white-space:pre;
+  transition:transform .28s var(--ease);
+  transition-delay:calc(var(--i, 0) * 18ms);
+}
+.btn:hover .btn__z, .btn:focus-visible .btn__z{ transform:translateY(-.22em); }
+
+@media (prefers-reduced-motion: reduce){
+  .btn:hover, .btn:focus-visible, .btn:active{ transform:none; }
+  .btn__z{ transition:none; }
+  .btn:hover .btn__z, .btn:focus-visible .btn__z{ transform:none; }
+}
 
 /* główny przycisk jest ciemny, nie złoty — złoto na jasnym tle nie wyrabiało
    kontrastu 4.5:1, a tak zostaje czytelnym akcentem */
 .btn--gold{ background:var(--ink); color:var(--paper); }
-.btn--gold:hover{ background:var(--ink-2); transform:translateY(-2px);
+.btn--gold:hover{ background:var(--ink-2);
   box-shadow:0 10px 24px rgba(43,33,26,.18); }
 
 .btn--ghost{ border-color:rgba(43,33,26,.24); color:var(--ink); }
-.btn--ghost:hover{ border-color:var(--gold); color:var(--gold-deep); transform:translateY(-2px); }
+.btn--ghost:hover{ border-color:var(--gold); color:var(--gold-deep); }
 
 /* Telefon w pasku to główne wezwanie do działania na całej stronie, a wyglądał
    jak każdy inny obramowany guzik i ginął obok linków. Teraz jest wypełniony,
@@ -128,7 +153,7 @@ a{ color:inherit; }
 }
 .btn--sm:hover{
   background:var(--gold-deep); border-color:var(--gold-deep); color:var(--paper);
-  transform:translateY(-2px); box-shadow:0 10px 24px rgba(43,33,26,.22);
+  box-shadow:0 10px 24px rgba(43,33,26,.22);
 }
 .btn--sm:hover svg{ background:var(--paper); fill:var(--gold-deep); }
 

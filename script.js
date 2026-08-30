@@ -33,6 +33,45 @@
     ustawCiecie();
   }
 
+  /* --- przyciski: rozbicie napisu na litery ---
+     Każda litera dostaje własny <span> i numer w kolejności, z którego CSS liczy
+     opóźnienie podskoku — stąd fala od lewej do prawej. Czytnik ekranu dostaje
+     całą frazę z aria-label, a same litery są przed nim ukryte; bez tego czytałby
+     napis głoska po głosce. Ruszamy wyłącznie węzły tekstowe, więc ikony i inne
+     elementy w środku przycisku zostają nietknięte. */
+  document.querySelectorAll('.btn').forEach(function (btn) {
+    var pelny = btn.textContent.replace(/\s+/g, ' ').trim();
+    if (!pelny) return;
+    if (!btn.getAttribute('aria-label')) btn.setAttribute('aria-label', pelny);
+
+    var licznik = 0;
+    var rozbij = function (wezel) {
+      Array.prototype.slice.call(wezel.childNodes).forEach(function (dziecko) {
+        if (dziecko.nodeType === 3) {
+          var tekst = dziecko.nodeValue;
+          if (!tekst.trim()) return;
+          // Litery idą do wspólnego opakowania. Wrzucone wprost do przycisku
+          // stałyby się osobnymi elementami flexa i każdą rozdzielałby odstęp
+          // spod gap — napis rozjechałby się na całą szerokość.
+          var opak = document.createElement('span');
+          opak.className = 'btn__t';
+          for (var i = 0; i < tekst.length; i++) {
+            var s = document.createElement('span');
+            s.className = 'btn__z';
+            s.setAttribute('aria-hidden', 'true');
+            s.style.setProperty('--i', licznik++);
+            s.textContent = tekst[i];
+            opak.appendChild(s);
+          }
+          wezel.replaceChild(opak, dziecko);
+        } else if (dziecko.nodeType === 1 && dziecko.tagName !== 'SVG') {
+          rozbij(dziecko);
+        }
+      });
+    };
+    rozbij(btn);
+  });
+
   /* --- pasek nawigacji po scrollu --- */
   var nav = document.getElementById('nav');
   function onScroll() {
