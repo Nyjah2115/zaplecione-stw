@@ -4,25 +4,6 @@
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* --- hero: suwak metamorfozy ---
-     Cała mechanika to jedna zmienna --ciecie: szerokość, do której przycinana jest
-     warstwa „przed". Bierze się wprost z natywnego <input type="range">, więc mysz,
-     dotyk, klawiatura i czytniki ekranu działają bez pisania własnej obsługi.
-     Bez JS suwak nadal się rusza, tylko zdjęcie nie reaguje — dlatego domyślne 50%
-     siedzi w CSS, a nie tutaj. */
-  var suwak = document.getElementById('metamSuwak');
-  var metam = document.getElementById('metam');
-  if (suwak && metam) {
-    // Suwak jest w CSS rozszerzony o szerokość uchwytu, więc środek kciuka
-    // przejeżdża dokładnie od lewej do prawej krawędzi zdjęcia — wartość suwaka
-    // można wziąć wprost, bez przeliczania na pozycję.
-    var ustawCiecie = function () {
-      metam.style.setProperty('--ciecie', suwak.value + '%');
-    };
-    suwak.addEventListener('input', ustawCiecie);
-    ustawCiecie();
-  }
-
   /* --- pasek nawigacji po scrollu --- */
   var nav = document.getElementById('nav');
   function onScroll() {

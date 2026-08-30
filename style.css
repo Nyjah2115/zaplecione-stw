@@ -197,74 +197,35 @@ a{ color:inherit; }
 }
 .hero__tresc{ min-width:0; max-width:52ch; }
 
-/* --- suwak metamorfozy --- */
-/* Kadr prowadzi wysokość, a szerokość dolicza się z proporcji 3:4 — inaczej przy
-   szerokim oknie karta wychodziła poniżej ekranu. */
-.metam{ margin:0; width:auto; --uchwyt:2.6rem; }
+/* --- para zdjęć przed / po --- */
+/* Wcześniej było to jedno zdjęcie przecierane suwakiem. Taki suwak zakłada, że
+   oba kadry zrobiono tak samo — a te nie są: jeden pokazuje całą głowę w salonie,
+   drugi zbliżenie na same włosy. Linia podziału biegła w poprzek dwóch różnych
+   ujęć i całość wyglądała krzywo. Zestawienie obok siebie niczego takiego nie
+   obiecuje, więc różnica kadrów przestaje przeszkadzać. */
+.metam{ margin:0; width:auto; }
 .metam__naglowek{ margin:0 0 .7rem; }
-/* Etykiety siedzą w rogach kadru. „Przed" leży w przycinanej warstwie, więc
-   znika razem ze zdjęciem, które opisuje — po zsunięciu suwaka na kadrze zostaje
-   samo „Po". Dla czytnika ekranu są zbędne, bo to samo mówią opisy zdjęć. */
-.metam__etykieta{
-  position:absolute; top:.7rem; z-index:1;
-  padding:.32rem .7rem; border-radius:2px;
-  background:rgba(43,33,26,.72);
-  color:#FBF7F2; font-size:.62rem; font-weight:600;
-  letter-spacing:.2em; text-transform:uppercase; line-height:1;
-  pointer-events:none;
+.metam__para{
+  display:grid; grid-template-columns:1fr 1fr; gap:.5rem;
+  width:min(34rem, 46vw);
 }
-.metam__etykieta--przed{ left:.7rem; }
-.metam__etykieta--po{ right:.7rem; }
-.metam__kadr{
-  position:relative; aspect-ratio:3 / 4; overflow:hidden;
-  height:min(66svh, 31rem); width:auto;
-  border-radius:3px; border:1px solid var(--line);
-  box-shadow:0 26px 60px rgba(43,33,26,.20);
+.metam__panel{
+  position:relative; margin:0; overflow:hidden;
+  aspect-ratio:3 / 4; border-radius:3px;
+  border:1px solid var(--line);
+  box-shadow:0 18px 44px rgba(43,33,26,.16);
   background:var(--paper-2);
-  touch-action:pan-y;   /* pion zostawiamy stronie, poziom bierze suwak */
 }
-.metam__kadr img{
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; display:block; user-select:none; -webkit-user-drag:none;
+.metam__panel img{
+  width:100%; height:100%; object-fit:cover; display:block;
 }
-/* Warstwa „przed" leży na wierzchu i jest przycinana od prawej. --ciecie ustawia
-   skrypt z pozycji suwaka; bez skryptu zostaje 50% i zdjęcia i tak widać oba. */
-.metam__przed-warstwa{
-  position:absolute; inset:0;
-  clip-path:inset(0 calc(100% - var(--ciecie, 50%)) 0 0);
+.metam__panel figcaption{
+  position:absolute; top:.6rem; left:.6rem;
+  padding:.3rem .65rem; border-radius:2px;
+  background:rgba(43,33,26,.72);
+  color:#FBF7F2; font-size:.6rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase; line-height:1;
 }
-.metam__linia{
-  position:absolute; top:0; bottom:0; left:var(--ciecie, 50%);
-  width:2px; margin-left:-1px; background:var(--paper);
-  box-shadow:0 0 0 1px rgba(43,33,26,.25);
-  pointer-events:none;
-}
-/* Uchwyt rysujemy na kciuku natywnego suwaka — dzięki temu obsługa myszy,
-   dotyku i klawiatury jest za darmo i zgodna z tym, czego oczekuje czytnik.
-   Suwak wystaje poza kadr o pół szerokości uchwytu z każdej strony. Bez tego
-   środek kciuka nigdy nie dojeżdża do krawędzi zdjęcia i przy krańcach skali
-   zostawał pasek drugiej wersji, którego nie dało się schować. Kadr ma
-   overflow:hidden, więc na końcach widać po prostu połowę kółka. */
-.metam__suwak{
-  position:absolute; top:0; bottom:0;
-  left:calc(var(--uchwyt) / -2); width:calc(100% + var(--uchwyt));
-  margin:0; padding:0; background:none; border:0;
-  -webkit-appearance:none; appearance:none; cursor:ew-resize;
-}
-.metam__suwak:focus{ outline:none; }
-.metam__suwak:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
-.metam__suwak::-webkit-slider-thumb{
-  -webkit-appearance:none; appearance:none;
-  width:var(--uchwyt); height:var(--uchwyt); border-radius:50%; cursor:ew-resize;
-  background:var(--paper); border:1px solid var(--line);
-  box-shadow:0 6px 18px rgba(43,33,26,.28);
-}
-.metam__suwak::-moz-range-thumb{
-  width:var(--uchwyt); height:var(--uchwyt); border-radius:50%; cursor:ew-resize;
-  background:var(--paper); border:1px solid var(--line);
-  box-shadow:0 6px 18px rgba(43,33,26,.28);
-}
-.metam__suwak::-moz-range-track{ background:none; border:0; }
 
 /* ---------- Poznajmy się ---------- */
 .poznajmy{ max-width:var(--maxw); margin-inline:auto; }
@@ -330,8 +291,7 @@ a{ color:inherit; }
 @media (max-width:900px){
   /* Zdjęcie idzie nad tekst — obok siebie zostawałaby na oba za wąska kolumna. */
   .hero__inner{ grid-template-columns:1fr; gap:var(--space-4); justify-items:start; justify-content:start; }
-  .metam{ --uchwyt:2rem; }
-  .metam__kadr{ height:min(42svh, 17rem); }
+  .metam__para{ width:min(34rem, 100%); }
   .hero__nazwa{ width:100%; max-width:260px; }
   .hero__miasto{ font-size:.62rem; letter-spacing:.22em; margin-top:.4rem; }
   .hero__lead{ font-size:.9rem; line-height:1.55; margin-bottom:var(--space-3); }
