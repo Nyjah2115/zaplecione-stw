@@ -138,13 +138,13 @@ a{ color:inherit; }
 .btn--ghost{ border-color:rgba(43,33,26,.24); color:var(--ink); }
 .btn--ghost:hover{ border-color:var(--gold); color:var(--gold-deep); }
 
-/* Telefon w pasku to główne wezwanie do działania na całej stronie, a wyglądał
-   jak każdy inny obramowany guzik i ginął obok linków. Teraz jest wypełniony,
-   a ikona siedzi w złotym kółku — widać go pierwszym rzutem oka. */
+/* Telefon w pasku. Numer wraca do ciemnego koloru na jasnym tle, tak jak było
+   wcześniej — wyróżnienie bierze na siebie sama słuchawka w złotym kółku i kształt
+   pigułki, a nie wypełnienie całego przycisku. */
 .btn--sm{
   min-height:42px; padding:.4rem 1.1rem .4rem .4rem;
   gap:.65rem; font-size:.78rem; letter-spacing:.07em;
-  background:var(--ink); border-color:var(--ink); color:var(--paper);
+  background:none; border-color:rgba(43,33,26,.22); color:var(--ink);
 }
 .btn--sm svg{
   width:1.85rem; height:1.85rem; padding:.5rem; box-sizing:border-box; flex:none;
@@ -152,10 +152,10 @@ a{ color:inherit; }
   transition:background .25s var(--ease), fill .25s var(--ease);
 }
 .btn--sm:hover{
-  background:var(--gold-deep); border-color:var(--gold-deep); color:var(--paper);
-  box-shadow:0 10px 24px rgba(43,33,26,.22);
+  background:none; border-color:var(--gold); color:var(--gold-deep);
+  box-shadow:0 8px 20px rgba(43,33,26,.10);
 }
-.btn--sm:hover svg{ background:var(--paper); fill:var(--gold-deep); }
+.btn--sm:hover svg{ background:var(--gold-deep); fill:var(--paper); }
 
 /* ---------- Nawigacja ---------- */
 /* Pasek jest nieprzezroczysty od pierwszej sekundy — pod spodem leci ciemne
@@ -861,8 +861,8 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
   /* bez napisu zostaje sama ikona — przycisk robi się kwadratem */
   .nav .btn--sm span{ display:none; }
   .nav .btn--sm{ width:2.75rem; height:2.75rem; min-height:0; padding:0; }
-  .nav .btn--sm svg{ background:none; fill:var(--gold); width:1.25rem; height:1.25rem; padding:0; }
-  .nav .btn--sm:hover svg{ background:none; fill:var(--paper); }
+  .nav .btn--sm svg{ background:none; fill:var(--gold-deep); width:1.25rem; height:1.25rem; padding:0; }
+  .nav .btn--sm:hover svg{ background:none; fill:var(--gold-deep); }
   .mozaika{ grid-template-columns:1fr; }
   /* W zdjęcia wypalone są napisy — w dwóch kolumnach po 165 px robiły się
      nieczytelne. Jedna kolumna na telefon. */
