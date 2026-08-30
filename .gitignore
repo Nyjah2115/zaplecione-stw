@@ -1,0 +1,11 @@
+# Prywatne notatki — lista zmyślonych treści i uwag o kliencie.
+# Celowo NIE trafia na publiczne repo.
+DANE-DO-POTWIERDZENIA.md
+
+# Oryginały z Higgsfield (33 MB) — na stronie idą wersje skompresowane.
+media/hero/orig/
+
+# Eksport z Canvy, 2,2 MB, strona go nie ładuje — źródło do ewentualnych poprawek.
+media/logo/zrodlo-canva.svg
+
+.DS_Store
