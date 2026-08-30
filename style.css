@@ -302,7 +302,13 @@ a{ color:inherit; }
   gap:clamp(2rem,5vw,5rem);
   align-items:center;
 }
-.hero__tresc{ min-width:0; max-width:52ch; }
+/* Napis „Zaplecione" jest węższy niż akapit pod nim, więc przy wyrównaniu do
+   lewej kończył się 44 px przed prawą krawędzią bloku i wyglądał na przesunięty.
+   Cała kolumna jest teraz wyśrodkowana — tak samo jak na telefonie. */
+.hero__tresc{ min-width:0; max-width:52ch; text-align:center; }
+.hero__miasto{ justify-content:center; }
+.hero .hero__lead{ margin-inline:auto; }
+.hero__cta{ justify-content:center; }
 
 /* --- suwak metamorfozy --- */
 /* Kadr prowadzi wysokość, a szerokość dolicza się z proporcji 3:4 — inaczej przy
@@ -448,12 +454,8 @@ a{ color:inherit; }
      telefonie to nazwa ma witać, a nie zdjęcie. Kadr stoi pośrodku, bo przy
      wyrównaniu do lewej zostawał po prawej pusty pas na pół ekranu. */
   .hero__inner{ grid-template-columns:1fr; gap:var(--space-4); justify-items:center; justify-content:center; }
-  .hero__tresc{ width:100%; order:1; text-align:center; }
+  .hero__tresc{ width:100%; order:1; }
   .metam{ order:2; }
-  /* wszystko w jednej osi: nadtytuł, nazwa, miasto, akapit i przyciski */
-  .hero__miasto{ justify-content:center; }
-  .hero .hero__lead{ margin-inline:auto; }
-  .hero__cta{ justify-content:center; }
   .metam__naglowek{ text-align:center; }
   .metam{ --uchwyt:2rem; }
   .metam__kadr{ height:min(42svh, 17rem); }
