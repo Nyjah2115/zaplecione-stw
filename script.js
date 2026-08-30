@@ -106,6 +106,59 @@
     document.querySelectorAll('.btn').forEach(function (b) { obsFala.observe(b); });
   }
 
+  /* --- kursor-nożyczki ---
+     Nożyczki płyną za myszką z interpolacją, przy kliknięciu ostrza się schodzą,
+     a nad elementem klikalnym rosną. Pętla rysowania zatrzymuje się, gdy kursor
+     dogoni wskaźnik, więc nic nie mieli procesora w tle. Przy ograniczonym ruchu
+     nożyczki zostają, ale bez płynięcia — doklejają się wprost do wskaźnika. */
+  var kursor = document.getElementById('kursor');
+  if (kursor && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.documentElement.classList.add('kursor-nozyczki');
+
+    var KLIKALNE = 'a, button, summary, label, [role="button"], .btn, .tile, .ikona, .metam__suwak, .nav__burger';
+    var celX = window.innerWidth / 2, celY = window.innerHeight / 2;
+    var kx = celX, ky = celY, klatka = null, ruszony = false, ciachTimer = null;
+    var plynnie = reduced ? 1 : 0.35;
+
+    var ustaw = function (x, y) {
+      kursor.style.transform = 'translate(' + x.toFixed(1) + 'px, ' + y.toFixed(1) + 'px) translate(-50%, -50%)';
+    };
+
+    var rysuj = function () {
+      kx += (celX - kx) * plynnie;
+      ky += (celY - ky) * plynnie;
+      ustaw(kx, ky);
+      klatka = (Math.abs(celX - kx) > 0.3 || Math.abs(celY - ky) > 0.3)
+        ? window.requestAnimationFrame(rysuj)
+        : null;
+    };
+
+    window.addEventListener('pointermove', function (e) {
+      if (e.pointerType === 'touch') return;
+      celX = e.clientX;
+      celY = e.clientY;
+
+      if (!ruszony) {                 // pierwszy ruch — pojaw się od razu na miejscu
+        ruszony = true;
+        kx = celX; ky = celY;
+        ustaw(kx, ky);
+        kursor.classList.add('jest-widoczny');
+      }
+
+      kursor.classList.toggle('nad-klikalnym', !!(e.target.closest && e.target.closest(KLIKALNE)));
+      if (!klatka) klatka = window.requestAnimationFrame(rysuj);
+    }, { passive: true });
+
+    window.addEventListener('mousedown', function () {
+      kursor.classList.add('ciach');
+      clearTimeout(ciachTimer);
+      ciachTimer = setTimeout(function () { kursor.classList.remove('ciach'); }, 110);
+    });
+
+    document.addEventListener('mouseleave', function () { kursor.classList.remove('jest-widoczny'); });
+    document.addEventListener('mouseenter', function () { if (ruszony) kursor.classList.add('jest-widoczny'); });
+  }
+
   /* --- pasek nawigacji po scrollu --- */
   var nav = document.getElementById('nav');
   function onScroll() {
