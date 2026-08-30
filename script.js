@@ -11,7 +11,6 @@
   var KLATEK = 90;
   var hero = document.querySelector('.hero');
   var canvas = document.getElementById('heroCanvas');
-  var kroki = document.querySelectorAll('.hero__krok');
 
   if (hero && canvas) {
     var ctx = canvas.getContext('2d', { alpha: false });
@@ -91,32 +90,11 @@
       return -1;
     };
 
-    var odswiez = function () {
-      var r = hero.getBoundingClientRect();
-      var droga = r.height - window.innerHeight;
-      var postep = droga > 0 ? Math.min(1, Math.max(0, -r.top / droga)) : 0;
+    var odswiez = function (postep) {
       biezacyPostep = postep;
-
       var i = Math.round(postep * (KLATEK - 1));
       var gotowa = najblizszaGotowa(i);
       if (gotowa >= 0) rysuj(gotowa, postep);
-
-      // Napisy zjeżdżają w dół razem z warkoczem — każdy w obrębie własnego okna
-      // widoczności, żeby wchodzący blok zaczynał od zera, a nie w połowie drogi.
-      var DRYF = 90;
-      for (var k = 0; k < kroki.length; k++) {
-        var od = parseFloat(kroki[k].dataset.od);
-        var doo = parseFloat(kroki[k].dataset.do);
-        var widoczny = postep >= od && postep <= doo;
-        kroki[k].classList.toggle('is-widoczny', widoczny);
-        if (widoczny && doo > od) {
-          var lokalny = (postep - od) / (doo - od);
-          kroki[k].style.setProperty('--dryf', (lokalny * DRYF).toFixed(1) + 'px');
-        }
-      }
-
-      // nawigacja pojawia się, gdy tylko zaczniesz przewijać
-      if (postep > 0.02) document.documentElement.classList.remove('nav-ukryta');
     };
 
     // pierwsza klatka ma priorytet, reszta doczytuje się w tle
@@ -138,7 +116,7 @@
     var krokLadowania = window.innerWidth < 760 ? 2 : 1;
 
     wymiaruj();
-    wczytaj(0, function () { odswiez(); });
+    wczytaj(0, function () { odswiez(biezacyPostep); });
     var nastepna = krokLadowania;
     var uzupelnij = function () {
       for (var i = 0; i < KLATEK; i++) {
@@ -157,37 +135,51 @@
     };
     kolejka();
 
-    // Przeglądarka potrafi wysłać zdarzenie scroll częściej niż odświeża ekran.
-    // Bez tego na monitorze 120 Hz przemalowywaliśmy canvas kilka razy na klatkę
-    // zupełnie bez potrzeby — stąd szarpanie na większych ekranach.
-    var czeka = false;
-    var zlecone = 0;
-    var naScroll = function () {
-      var teraz = (window.performance && performance.now()) ? performance.now() : Date.now();
-      if (czeka) {
-        // Zlecona klatka jeszcze nie przyszła. Jeśli milczy dłużej niż 200 ms, to
-        // znaczy, że przeglądarka wstrzymała animacje (karta w tle, oszczędzanie
-        // energii) — wtedy rysujemy wprost, zamiast czekać w nieskończoność
-        // i zostawić warkocz zamrożony.
-        if (teraz - zlecone < 200) return;
-        zlecone = teraz;
-        odswiez();
-        return;
-      }
-      czeka = true;
-      zlecone = teraz;
-      window.requestAnimationFrame(function () { czeka = false; odswiez(); });
+    // Warkocz gra sam z siebie, bez przewijania. Postęp liczy zegar, a nie pozycja
+    // scrolla. Cykl chodzi tam i z powrotem: warkocz się zaplata i schodzi w dół,
+    // potem wraca. Wygładzenie sinusem sprawia, że w punktach zwrotnych prędkość
+    // schodzi do zera i zawrócenia w ogóle nie widać — bez tego pętla szarpałaby
+    // przy każdym nawrocie.
+    var CYKL = 16000;          // pełne tam i z powrotem, w milisekundach
+    var start = null;
+    var gra = true;
+    var klatkaId = 0;
+
+    var petla = function (czas) {
+      klatkaId = window.requestAnimationFrame(petla);
+      if (start === null) start = czas;
+      var t = ((czas - start) % CYKL) / CYKL;               // 0…1 przez cały cykl
+      var postep = (1 - Math.cos(t * 2 * Math.PI)) / 2;      // 0 → 1 → 0, gładko
+      odswiez(postep);
     };
 
-    window.addEventListener('scroll', naScroll, { passive: true });
-    window.addEventListener('resize', function () { wymiaruj(); odswiez(); }, { passive: true });
-    // W ukrytej karcie przeglądarka nie wywołuje requestAnimationFrame, więc gdyby
-    // w tym czasie przyszło zdarzenie scroll, blokada zostałaby podniesiona i nigdy
-    // zdjęta — po powrocie do karty warkocz stałby w miejscu. Zerujemy ją i
-    // przerysowujemy przy każdym powrocie.
+    var wlacz = function () {
+      if (gra) return;
+      gra = true; start = null;
+      klatkaId = window.requestAnimationFrame(petla);
+    };
+    var wylacz = function () {
+      if (!gra) return;
+      gra = false;
+      window.cancelAnimationFrame(klatkaId);
+    };
+
+    window.addEventListener('resize', function () {
+      wymiaruj();
+      odswiez(biezacyPostep);
+    }, { passive: true });
+
+    // Nie ma sensu malować kadru, którego nikt nie widzi — ani gdy hero wyjechało
+    // poza ekran, ani gdy karta poszła w tło.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (wpisy) {
+        if (wpisy[0].isIntersecting) wlacz(); else wylacz();
+      }, { threshold: 0 }).observe(hero);
+    }
     document.addEventListener('visibilitychange', function () {
-      if (!document.hidden) { czeka = false; odswiez(); }
+      if (document.hidden) wylacz(); else wlacz();
     });
+
 
     // portret Anny jest opcjonalny — dopóki nie ma pliku, chowamy go zamiast
     // zostawiać złamaną ikonę obrazka
@@ -203,9 +195,17 @@
       }
     }
 
-    // Przy ograniczonym ruchu pasek nawigacji nie chowa się na start — reszta hero
-    // (przewijanie klatek) działa tak samo, bo steruje nim sam użytkownik.
-    if (!reduced) document.documentElement.classList.add('nav-ukryta');
+    // Animacja chodzi teraz sama z siebie, więc przy włączonym „ogranicz ruch”
+    // naprawdę trzeba ją zatrzymać: pokazujemy jeden statyczny kadr z połowy
+    // sekwencji i na tym koniec.
+    if (reduced) {
+      gra = false;
+      wczytaj(Math.round(KLATEK * 0.45), function () {
+        odswiez(0.45);
+      });
+    } else {
+      klatkaId = window.requestAnimationFrame(petla);
+    }
   }
 
   /* --- pasek nawigacji po scrollu --- */

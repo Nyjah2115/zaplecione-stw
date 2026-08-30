@@ -128,12 +128,6 @@ a{ color:inherit; }
   transition:border-color .35s var(--ease), box-shadow .35s var(--ease),
              opacity .8s var(--ease) .35s, transform .9s var(--ease) .35s;
 }
-/* Dopóki rozsuwa się kurtyna, pasek jest schowany — wjeżdża dopiero razem
-   z jasnym tłem. Klasę zdejmuje skrypt, więc bez JS pasek jest po prostu widoczny. */
-html.nav-ukryta .nav{
-  opacity:0; transform:translateY(-100%);
-  visibility:hidden; pointer-events:none;
-}
 .nav.is-stuck{ border-bottom-color:var(--line); box-shadow:0 8px 28px rgba(43,33,26,.07); }
 .nav__brand{ display:flex; align-items:center; gap:.65rem; text-decoration:none; }
 /* ikony siedzą przy nazwie po lewej; to one przejmują odpychanie reszty w prawo */
@@ -184,7 +178,7 @@ html.nav-ukryta .nav{
    scrolla wybiera klatkę z sekwencji rysowanej na canvasie. */
 .hero{
   position:relative;
-  height:450svh;
+  height:100svh;
   padding:0;              /* nadpisuje wspólny padding sekcji — scena ma być pełnoekranowa */
   background:var(--paper);
 }
@@ -301,8 +295,6 @@ html.nav-ukryta .nav{
 @keyframes mysz{ 0%,100%{ transform:translateY(0); opacity:1 } 60%{ transform:translateY(12px); opacity:0 } }
 
 @media (max-width:760px){
-  /* krótsza droga przewijania — na telefonie pełne 450svh to męcząca wędrówka */
-  .hero{ height:340svh; }
 }
 
 @media (max-width:900px){
@@ -336,6 +328,22 @@ html.nav-ukryta .nav{
   .hero__krok.is-widoczny{ opacity:1; transform:none; transition:none; }
   .hero__scroll span{ animation:none; }
 }
+
+/* ---------- Poznajmy się ---------- */
+/* Blok o Ani mieszkał wcześniej w hero jako drugi krok przewijania. Hero gra teraz
+   samo z siebie i ma jeden ekran, więc nie ma już drugiego kroku — treść dostaje
+   własną sekcję zaraz pod nim, żeby nic z niej nie przepadło. */
+.poznajmy{ max-width:var(--maxw); margin-inline:auto; }
+.poznajmy__inner{
+  display:grid; grid-template-columns:auto 1fr; gap:var(--space-4); align-items:center;
+}
+.poznajmy__portret{
+  width:15rem; height:18.7rem; object-fit:cover; object-position:center 22%;
+  border-radius:2px; border:1px solid var(--line);
+  box-shadow:0 20px 44px rgba(43,33,26,.14);
+}
+.poznajmy__txt h2{ margin-top:.3rem; }
+.poznajmy__txt .lead{ margin-top:var(--space-3); }
 
 /* ---------- Sekcje ---------- */
 section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
@@ -726,6 +734,8 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
   .tile--wide{ grid-column:span 2; }
   .tile--tall{ grid-row:auto; min-height:18rem; }
   .skup__inner, .kontakt__inner, .iso__inner{ grid-template-columns:1fr; }
+  .poznajmy__inner{ grid-template-columns:1fr; gap:var(--space-3); }
+  .poznajmy__portret{ width:11rem; height:13.7rem; }
   .cennik__para{ grid-template-columns:1fr; }
   /* na wąskim ekranie sam tytuł grupy — podpowiedź zawijałaby się w drugą linijkę */
   .cennik__hint{ display:none; }
