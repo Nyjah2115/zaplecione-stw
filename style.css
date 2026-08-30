@@ -158,6 +158,11 @@ a{ color:inherit; }
   gap:.65rem; font-size:.78rem; letter-spacing:.07em;
   background:none; border-color:rgba(43,33,26,.22); color:var(--ink);
 }
+/* Cyfry nie mają wydłużeń dolnych, więc w pudełku wiersza zostaje pod nimi puste
+   miejsce po miejscu na ogonki — numer wygląda przez to na podniesiony względem
+   kółka obok. Zmierzone: środek samych cyfr wypada 0,4 px nad środkiem pudełka.
+   Zbijamy interlinię do wysokości pisma i dosuwamy numer o piksel w dół. */
+.btn--sm .btn__t{ line-height:1; transform:translateY(1px); }
 .btn--sm svg{
   width:1.85rem; height:1.85rem; padding:.5rem; box-sizing:border-box; flex:none;
   border-radius:50%; background:var(--gold); fill:var(--ink);
