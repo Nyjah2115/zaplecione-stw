@@ -334,7 +334,11 @@ a{ color:inherit; }
 
 @media (max-width:900px){
   /* Zdjęcie idzie nad tekst — obok siebie zostawałaby na oba za wąska kolumna. */
-  .hero__inner{ grid-template-columns:1fr; gap:var(--space-4); justify-items:start; justify-content:start; }
+  /* Jedna kolumna: kadr metamorfozy stoi pośrodku, bo przy wyrównaniu do lewej
+     zostawał po prawej pusty pas na pół ekranu. Wyżej nie da się go powiększyć —
+     razem z tekstem musi się zmieścić w jednym ekranie. */
+  .hero__inner{ grid-template-columns:1fr; gap:var(--space-4); justify-items:center; justify-content:center; }
+  .hero__tresc{ width:100%; }
   .metam{ --uchwyt:2rem; }
   .metam__kadr{ height:min(42svh, 17rem); }
   .hero__nazwa{ width:100%; max-width:260px; }
@@ -441,11 +445,11 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 /* ---------- Galeria ---------- */
 .galeria{ max-width:var(--maxw); margin-inline:auto; }
 .galeria .lead{ margin-top:var(--space-3); }
-/* Kartki układają się do własnej treści, a nie do najwyższej w rzędzie — zdjęcia
-   mają różne proporcje i wyrównywanie ich wysokości robiło szare pasy. */
+/* Wszystkie zdjęcia są dociosane do 3:4, więc siatka może być równa. Wcześniej
+   każde miało własne proporcje i kartki kończyły się na różnych wysokościach —
+   stąd wrażenie bałaganu. */
 .galeria__grid{
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(14.4rem,1fr)); gap:var(--space-3);
-  align-items:start;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-3);
 }
 /* na jasnej stronie podpisy są widoczne od razu, nie po najechaniu */
 .galeria figure{
@@ -456,12 +460,10 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
   transition:transform .4s var(--ease), box-shadow .4s var(--ease);
 }
 .galeria figure:hover{ transform:translateY(-4px); box-shadow:0 16px 34px rgba(43,33,26,.11); }
-/* Zdjęcia to zrzuty z Instagrama: kolaże przed/po, kadry pionowe i poziome.
-   Wtłoczone w jedną proporcję 3:4 z object-fit:contain dostawały szerokie szare
-   pasy u góry i u dołu. Każde zachowuje teraz własne proporcje — nic nie jest
-   przycięte i nigdzie nie ma pustego pola. */
+/* Pliki są już w proporcji kartki, więc cover niczego nie obcina — stoi tu jako
+   zabezpieczenie, gdyby kiedyś doszło zdjęcie o innych wymiarach. */
 .galeria img{
-  width:100%; height:auto; display:block;
+  width:100%; height:auto; aspect-ratio:3 / 4; object-fit:cover; display:block;
 }
 .galeria figcaption{
   padding:.9rem 1rem 1.15rem;
@@ -744,10 +746,13 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 /* ---------- Responsywność ---------- */
 @media (max-width:1024px){
   .mozaika{ grid-template-columns:repeat(2,1fr); }
+  .galeria__grid{ grid-template-columns:repeat(2,1fr); }
   .skup__inner, .kontakt__inner, .iso__inner{ grid-template-columns:1fr; }
   /* portret i tekst jeden pod drugim — obok siebie zostaje na oba za wąsko */
   .poznajmy__inner{ grid-template-columns:1fr; gap:var(--space-3); }
-  .poznajmy__portret{ width:min(24rem, 62vw); }
+  /* Portret bierze całą szerokość kolumny — przy 62vw wisiał przy lewej krawędzi
+     z pustym pasem obok. */
+  .poznajmy__portret{ width:100%; max-width:24rem; }
   .cennik__para{ grid-template-columns:1fr; }
   /* na wąskim ekranie sam tytuł grupy — podpowiedź zawijałaby się w drugą linijkę */
   .cennik__hint{ display:none; }
@@ -817,8 +822,8 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
   .nav .btn--sm span{ display:none; }
   .nav .btn--sm{ padding:.55rem .75rem; }
   .mozaika{ grid-template-columns:1fr; }
-  /* Zdjęcia w galerii to zrzuty z Instagrama — w dwóch kolumnach po 165 px
-     wypalone w nie napisy robiły się nieczytelne. Jedna kolumna na ekran. */
+  /* W zdjęcia wypalone są napisy — w dwóch kolumnach po 165 px robiły się
+     nieczytelne. Jedna kolumna na telefon. */
   .galeria__grid{ grid-template-columns:1fr; gap:var(--space-3); }
   .galeria figcaption{ padding:.7rem .8rem .9rem; font-size:.8rem; }
   .stopka__kolumny{ grid-template-columns:1fr; justify-items:center; text-align:center; gap:var(--space-3); }
