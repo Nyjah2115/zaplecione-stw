@@ -889,6 +889,11 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 .stopka nav a{ font-size:.85rem; color:rgba(233,224,214,.75); text-decoration:none;
   transition:color .2s var(--ease); }
 .stopka nav a:hover{ color:#F0D9A8; }
+/* dane rejestrowe — drobnym drukiem pod adresem */
+.stopka__firma{
+  margin:.5rem 0 0; font-size:.76rem; letter-spacing:.02em;
+  color:rgba(240,229,216,.55);
+}
 .stopka__copy{ grid-column:1/-1; margin:var(--space-3) 0 0; padding-top:var(--space-3);
   border-top:1px solid rgba(233,224,214,.16); font-size:.78rem; color:rgba(233,224,214,.5); }
 
