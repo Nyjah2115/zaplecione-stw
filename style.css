@@ -162,7 +162,10 @@ a{ color:inherit; }
    miejsce po miejscu na ogonki — numer wygląda przez to na podniesiony względem
    kółka obok. Zmierzone: środek samych cyfr wypada 0,4 px nad środkiem pudełka.
    Zbijamy interlinię do wysokości pisma i dosuwamy numer o piksel w dół. */
-.btn--sm .btn__t{ line-height:1; transform:translateY(1px); }
+/* Numer musi zostać w jednej linijce. Po rozbiciu napisu na osobne znaki
+   przeglądarka może łamać wiersz między nimi i przy węższym oknie robiła
+   z numeru dwa wiersze („663 691 67" / „4"). */
+.btn--sm .btn__t{ line-height:1; transform:translateY(1px); white-space:nowrap; }
 .btn--sm svg{
   width:1.85rem; height:1.85rem; padding:.5rem; box-sizing:border-box; flex:none;
   border-radius:50%; background:var(--gold); fill:var(--ink);
@@ -237,6 +240,7 @@ a{ color:inherit; }
 .nav__brand:hover .nav__nazwa{ color:var(--gold-deep); }
 .nav__links{ display:flex; gap:1.75rem; }
 .nav__links a{
+  white-space:nowrap;
   font-size:.8rem; letter-spacing:.09em; text-transform:uppercase; font-weight:500;
   text-decoration:none; color:var(--ink-soft); padding:.4rem 0;
   transition:color .2s var(--ease);
@@ -919,12 +923,16 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
   .skup__img{ max-width:26rem; }
 }
 
-/* Pasek nawigacji przechodzi w menu pod przyciskiem już przy 1100 px, a nie
-   dopiero przy 760. Rozwinięte linki potrzebują razem z logo i telefonem prawie
-   całej tej szerokości — poniżej wychodziły poza ekran na tabletach i w wąskich
-   oknach na laptopie. Próg jest wyżej niż sam pomiar, bo przy większej skali
-   pisma napisy w linkach też są szersze. */
-@media (max-width:1100px){
+/* Ile miejsca potrzebuje rozwinięty pasek, zmierzone przy 1280 px: nazwa 131 +
+   ikony 90 + linki 752 + telefon 173, do tego trzy odstępy po 24 i marginesy 102,
+   czyli 1321 px. Poniżej tego linki łamały się na dwie linijki. Dlatego dwa progi:
+   najpierw znikają ikony społecznościowe (są też w sekcji kontaktu), a to schodzi
+   do 1206 px; potem cały spis linków chowa się pod przycisk. */
+@media (max-width:1340px){
+  .nav__spolecznosciowe{ display:none; }
+}
+
+@media (max-width:1210px){
   .nav__links{
     position:fixed; inset:var(--nav-h) 0 auto 0;
     flex-direction:column; gap:0; text-align:center;
