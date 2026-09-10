@@ -482,7 +482,12 @@ a{ color:inherit; }
 .kursor-nozyczki a, .kursor-nozyczki button, .kursor-nozyczki summary,
 .kursor-nozyczki label, .kursor-nozyczki [role="button"],
 .kursor-nozyczki .btn, .kursor-nozyczki .tile, .kursor-nozyczki .ikona,
-.kursor-nozyczki .metam__suwak, .kursor-nozyczki .nav__burger{ cursor:none; }
+.kursor-nozyczki .nav__burger{ cursor:none; }
+/* Nad suwakiem metamorfozy nożyczki gasną i wraca systemowa strzałka z dwoma
+   grotami — ona mówi wprost, że tu się przeciąga, a nożyczki tylko by to
+   zasłaniały. Klasę zdejmuje i nakłada skrypt, więc powrót jest płynny. */
+.kursor-nozyczki .metam__suwak{ cursor:ew-resize; }
+.kursor.jest-widoczny.schowany{ opacity:0; }
 
 .kursor{
   position:fixed; top:0; left:0;
