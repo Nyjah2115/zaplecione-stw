@@ -44,6 +44,10 @@
    zostawało w rozmiarze laptopowym i na 27 calach wyglądało drobno.
    Wartości są w procentach, a nie w px, żeby nie nadpisać ustawienia
    wielkości czcionki z przeglądarki. */
+/* Lenis sam prowadzi przewijanie, więc natywne wygładzanie musi mu ustąpić —
+   inaczej obie animacje biją się o tę samą pozycję. */
+html.lenis, html.lenis body{ height:auto; }
+.lenis.lenis-smooth{ scroll-behavior:auto !important; }
 html{ scroll-behavior:smooth; font-size:clamp(100%, 87% + .35vw, 125%); }
 @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
 
@@ -474,20 +478,7 @@ a{ color:inherit; }
   .hero__scroll span{ animation:none; }
 }
 
-/* ---------- Kursor-nożyczki ----------
-   Ten sam pomysł co na stronie salonu Fantazja. Systemowy kursor chowa dopiero
-   skrypt (klasa kursor-nozyczki na <html>), więc bez JS-u albo na ekranie
-   dotykowym zostaje normalna strzałka i nic się nie psuje. */
-.kursor-nozyczki, .kursor-nozyczki body,
-.kursor-nozyczki a, .kursor-nozyczki button, .kursor-nozyczki summary,
-.kursor-nozyczki label, .kursor-nozyczki [role="button"],
-.kursor-nozyczki .btn, .kursor-nozyczki .tile, .kursor-nozyczki .ikona,
-.kursor-nozyczki .nav__burger{ cursor:none; }
-/* Nad suwakiem metamorfozy nożyczki gasną i wraca systemowa strzałka z dwoma
-   grotami — ona mówi wprost, że tu się przeciąga, a nożyczki tylko by to
-   zasłaniały. Klasę zdejmuje i nakłada skrypt, więc powrót jest płynny. */
-.kursor-nozyczki .metam__suwak{ cursor:ew-resize; }
-.kursor.jest-widoczny.schowany{ opacity:0; }
+
 
 .kursor{
   position:fixed; top:0; left:0;
@@ -1015,3 +1006,21 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
   .raty{ flex-direction:column; }
   .tabela{ font-size:.9rem; }
 }
+
+/* ---------- Kursor-nożyczki ----------
+   Ten sam pomysł co na stronie salonu Fantazja. Systemowy kursor chowa dopiero
+   skrypt (klasa kursor-nozyczki na <html>), więc bez JS-u albo na ekranie
+   dotykowym zostaje normalna strzałka i nic się nie psuje.
+
+   Blok stoi celowo na końcu arkusza i chowa kursor gwiazdką, a nie listą
+   elementów. Wcześniej była lista, a niżej w pliku siedziały reguły w rodzaju
+   `.cennik__grupa > summary{ cursor:pointer }` o tej samej sile — wygrywały,
+   bo były dalej, i nad nagłówkami cennika spod nożyczek wyłaziła łapka. */
+html.kursor-nozyczki, html.kursor-nozyczki *{ cursor:none; }
+/* Nad suwakiem metamorfozy nożyczki gasną i wraca systemowa strzałka z dwoma
+   grotami — ona mówi wprost, że tu się przeciąga. Nad ramką z mapą kursor
+   należy do niej. */
+html.kursor-nozyczki .metam__suwak{ cursor:ew-resize; }
+html.kursor-nozyczki iframe{ cursor:auto; }
+.kursor.jest-widoczny.schowany{ opacity:0; }
+

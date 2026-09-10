@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Prata&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=58">
+<link rel="stylesheet" href="style.css?v=60">
 </head>
 <body>
 
@@ -541,6 +541,11 @@
 <!-- ?v= przy arkuszu i skrypcie: bez tego przeglądarka trzyma poprzednią
      wersję z cache i po wgraniu poprawki trzeba odświeżać z Ctrl+Shift+R.
      Numer podbijam przy każdej zmianie w tych dwóch plikach. -->
-<script src="script.js?v=58"></script>
+<!-- Lenis — ta sama biblioteka i te same ustawienia co na stronie ODNOVA.
+     Wcześniej próbowałem wygładzać przewijanie własnym kodem i wychodziło z tego
+     cofanie strony; sprawdzona biblioteka robi to poprawnie. Gdyby się nie
+     wczytała, zostaje zwykłe przewijanie przeglądarki. -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="script.js?v=60"></script>
 </body>
 </html>

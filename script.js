@@ -163,6 +163,26 @@
     document.addEventListener('mouseenter', function () { if (ruszony) kursor.classList.add('jest-widoczny'); });
   }
 
+  /* --- płynne przewijanie (Lenis) ---
+     Ta sama biblioteka i te same ustawienia co na stronie ODNOVA. Wcześniejsza
+     próba na własnym kodzie kończyła się cofaniem strony: blokowałem domyślne
+     przewijanie i osobna pętla ciągnęła stronę do zapamiętanego punktu, więc
+     każdy ruch spoza tej pętli był odwracany. Lenis nie blokuje przewijania,
+     tylko interpoluje pozycję, i ma to ograne na wszystkich urządzeniach.
+     Gdyby biblioteka się nie wczytała albo ktoś miał ograniczony ruch, zostaje
+     zwykłe przewijanie przeglądarki. */
+  var lenis = null;
+  if (window.Lenis && !reduced) {
+    try {
+      lenis = new window.Lenis({ duration: 1.15, wheelMultiplier: 0.9, touchMultiplier: 1.6 });
+      var takt = function (t) {
+        lenis.raf(t);
+        window.requestAnimationFrame(takt);
+      };
+      window.requestAnimationFrame(takt);
+    } catch (e) { lenis = null; }
+  }
+
   /* --- pasek nawigacji po scrollu --- */
   var nav = document.getElementById('nav');
   function onScroll() {
