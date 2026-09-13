@@ -174,7 +174,7 @@
   var lenis = null;
   if (window.Lenis && !reduced) {
     try {
-      lenis = new window.Lenis({ duration: 1.15, wheelMultiplier: 0.9, touchMultiplier: 1.6 });
+      lenis = new window.Lenis({ duration: 1.15, wheelMultiplier: 1.8, touchMultiplier: 1.6 });
       var takt = function (t) {
         lenis.raf(t);
         window.requestAnimationFrame(takt);
