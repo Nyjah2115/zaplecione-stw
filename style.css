@@ -53,7 +53,7 @@ html.lenis, html.lenis body{ height:auto; }
    bo pismo roslo z szerokoscia, a wysokosci juz nikt nie pilnowal. Gorna granica
    podniesiona ze 125% na 175%, bo na monitorze 2560 tresc zajmowala mniej niz
    polowe wysokosci. Na telefonach i tabletach zostaje domyslne 100%. */
-html{ scroll-behavior:smooth; font-size:clamp(100%, min(1.05vw, 1.85vh) + 4px, 175%); }
+html{ scroll-behavior:smooth; font-size:clamp(93.75%, min(.95vw, 1.68vh) + 3.5px, 160%); }
 @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
 
 body{
