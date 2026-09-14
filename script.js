@@ -174,7 +174,7 @@
   var lenis = null;
   if (window.Lenis && !reduced) {
     try {
-      lenis = new window.Lenis({ duration: 0.55, wheelMultiplier: 3.6, touchMultiplier: 1.6 });
+      lenis = new window.Lenis({ duration: 1.15, wheelMultiplier: 0.9, touchMultiplier: 1.6 });
       var takt = function (t) {
         lenis.raf(t);
         window.requestAnimationFrame(takt);
@@ -182,6 +182,19 @@
       window.requestAnimationFrame(takt);
     } catch (e) { lenis = null; }
   }
+
+  /* Linki do sekcji tez jada przez Lenisa — inaczej strona przeskakuje
+     skokiem, a Lenis przez chwile walczy z nowa pozycja. Odstep na pasek nawigacji. */
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (id === '#' || !lenis) return;
+      var cel = document.querySelector(id);
+      if (!cel) return;
+      e.preventDefault();
+      lenis.scrollTo(cel, { offset: -(nav ? nav.offsetHeight : 72), duration: 1.4 });
+    });
+  });
 
   /* --- pasek nawigacji po scrollu --- */
   var nav = document.getElementById('nav');

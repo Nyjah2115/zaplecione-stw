@@ -66,6 +66,7 @@ body{
   font-weight:400;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
+  overflow-x:clip;
 }
 
 img{ max-width:100%; display:block; }
