@@ -48,7 +48,12 @@
    inaczej obie animacje biją się o tę samą pozycję. */
 html.lenis, html.lenis body{ height:auto; }
 .lenis.lenis-smooth{ scroll-behavior:auto !important; }
-html{ scroll-behavior:smooth; font-size:clamp(100%, 87% + .35vw, 125%); }
+/* Skala liczona z mniejszej z dwoch miar: szerokosci i wysokosci okna. Sama
+   szerokosc nie wystarczala — na laptopie 1280x720 hero bylo wyzsze od ekranu,
+   bo pismo roslo z szerokoscia, a wysokosci juz nikt nie pilnowal. Gorna granica
+   podniesiona ze 125% na 175%, bo na monitorze 2560 tresc zajmowala mniej niz
+   polowe wysokosci. Na telefonach i tabletach zostaje domyslne 100%. */
+html{ scroll-behavior:smooth; font-size:clamp(100%, min(1.05vw, 1.85vh) + 4px, 175%); }
 @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
 
 body{
@@ -297,7 +302,9 @@ a{ color:inherit; }
 .hero{
   position:relative;
   min-height:100svh;
-  padding:calc(var(--nav-h) + var(--space-5)) clamp(1rem,4vw,3rem) var(--space-6);
+  /* odstepy nad i pod trescia nie wieksze niz kilka procent wysokosci ekranu —
+     na niskim laptopie to one wypychaly hero poza ekran */
+  padding:calc(var(--nav-h) + min(var(--space-5), 4svh)) clamp(1rem,4vw,3rem) min(var(--space-6), 6svh);
   background:var(--paper);
   display:grid; align-items:center;
 }
@@ -325,7 +332,7 @@ a{ color:inherit; }
 .metam__naglowek{ margin:0 0 .7rem; }
 .metam__kadr{
   position:relative; aspect-ratio:3 / 4; overflow:hidden;
-  height:min(66svh, 31rem); width:auto;
+  height:min(62svh, 31rem); width:auto;
   border-radius:3px; border:1px solid var(--line);
   box-shadow:0 26px 60px rgba(43,33,26,.20);
   background:var(--paper-2);
@@ -356,7 +363,7 @@ a{ color:inherit; }
   position:absolute; top:.7rem; z-index:1;
   padding:.32rem .7rem; border-radius:2px;
   background:rgba(43,33,26,.72);
-  color:#FBF7F2; font-size:.62rem; font-weight:600;
+  color:#FBF7F2; font-size:max(.62rem, 11px); font-weight:600;
   letter-spacing:.2em; text-transform:uppercase; line-height:1;
   pointer-events:none;
   transition:opacity .25s var(--ease);
@@ -466,8 +473,13 @@ a{ color:inherit; }
   .metam{ order:2; }
   .metam__naglowek{ text-align:center; }
   .metam{ --uchwyt:2rem; }
-  .metam__kadr{ height:min(42svh, 17rem); }
-  .hero__miasto{ font-size:.62rem; letter-spacing:.22em; margin-top:.4rem; }
+  .metam__kadr{ height:min(40svh, 16rem); }
+}
+/* Niskie telefony (np. 360x640): kadr metamorfozy nizszy, zeby cale hero z nazwa
+   i przyciskami miescilo sie na jednym ekranie. */
+@media (max-width:900px) and (max-height:700px){
+  .metam__kadr{ height:31svh; }
+  .hero__miasto{ font-size:max(.62rem, 11px); letter-spacing:.22em; margin-top:.4rem; }
   .hero__lead{ font-size:.9rem; line-height:1.55; margin-bottom:var(--space-3); }
   .hero__cta{ gap:.5rem; }
   .hero__cta .btn{ min-height:44px; padding:.6rem .85rem; font-size:.66rem; letter-spacing:.06em; }
@@ -591,7 +603,7 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 .tile__body strong{ color:var(--ink); font-weight:600; }
 .tile__tag{
   display:inline-block; margin-top:var(--space-2);
-  font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
+  font-size:max(.68rem, 11px); letter-spacing:.16em; text-transform:uppercase;
   color:var(--gold-deep); border:1px solid var(--line); padding:.3rem .7rem; border-radius:2px;
 }
 
@@ -931,6 +943,10 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
    do 1206 px; potem cały spis linków chowa się pod przycisk. */
 @media (max-width:1340px){
   .nav__spolecznosciowe{ display:none; }
+  /* Ikony mialy margin-right:auto i odpychaly telefon z menu w prawo. Po ich
+     schowaniu robi to nazwa — wczesniej tylko do 760 px, wiec na tabletach
+     i malych laptopach telefon stal tuz przy nazwie. */
+  .nav__brand{ margin-right:auto; }
 }
 
 @media (max-width:1210px){
