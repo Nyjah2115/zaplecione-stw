@@ -19,7 +19,10 @@ Konfiguracja `zaplecione` w `/Users/macbook/claude/.claude/launch.json`, port **
 - `index.html` · `style.css` · `script.js`
 - `archiwum/` — odrzucone warianty: wersja ciemna, poprzednie hero z kurtyną
   oraz boczny warkocz `warkocz-boczny.svg`. Nie kasować, Dawid może chcieć wrócić.
-- `media/foto/` — zdjęcia wybrane na stronę
+- `media/foto/` — **darmowe zdjęcia stockowe z Unsplash**, 17 sztuk, kazde uzyte
+  dokladnie raz (licencja Unsplash: uzycie komercyjne bez pytania o zgode).
+  Zrodla kazdego pliku: `media/foto/ZRODLA.txt`. To **nie sa prace zadnego salonu** —
+  mowi o tym notka w stopce. Zdjecia klientki wyniesione do `prywatne/foto-klientki/`
 - `media/hero/` — tu trafią klipy z Higgsfield
 - `BADANIE.md` — co ustaliłem o firmie i skąd
 - `DANE-DO-POTWIERDZENIA.md` — **wszystko, co jest zmyślone i wymaga potwierdzenia**
