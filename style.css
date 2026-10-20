@@ -222,8 +222,10 @@ a{ color:inherit; }
 }
 .nav.is-stuck{ border-bottom-color:var(--line); box-shadow:0 8px 28px rgba(43,33,26,.07); }
 .nav__brand{ display:flex; align-items:center; gap:.65rem; text-decoration:none; }
-/* ikony siedzą przy nazwie po lewej; to one przejmują odpychanie reszty w prawo */
-.nav__spolecznosciowe{ display:flex; gap:.4rem; margin-right:auto; }
+/* Ikony spolecznosciowe usuniete (brak profili do demo) — odpychanie reszty
+   w prawo przejela sama nazwa. Style zostaja na wypadek powrotu ikon. */
+.nav__brand{ margin-right:auto; }
+.nav__spolecznosciowe{ display:flex; gap:.4rem; }
 /* Sprite z napisem — jeden wektor używany w pasku, hero i stopce przez <use>.
    Kolor bierze się z `currentColor`, więc ten sam plik działa na jasnym i ciemnym tle. */
 .sprite{ position:absolute; width:0; height:0; overflow:hidden; }
@@ -405,6 +407,11 @@ a{ color:inherit; }
 .poznajmy__inner{
   display:grid; grid-template-columns:auto 1fr; gap:var(--space-4); align-items:center;
 }
+/* Portret klientki zostal usuniety, wiec sekcja ma jedna kolumne: tekst sciagniety
+   do czytelnej szerokosci i wysrodkowany jak reszta strony. */
+.poznajmy__inner{ grid-template-columns:1fr; justify-items:center; }
+.poznajmy__txt{ max-width:46rem; text-align:center; }
+
 /* Plik ma 720×900, więc przy 24rem (około 455 px) nadal nie jest rozciągany.
    Wysokość liczy się z proporcji oryginału, zamiast być wpisana ręcznie. */
 .poznajmy__portret{

@@ -9,3 +9,7 @@ media/hero/orig/
 media/logo/zrodlo-canva.svg
 
 .DS_Store
+
+# Materialy klienta i notatki o nim — poza publicznym repo.
+prywatne/
+BADANIE.md

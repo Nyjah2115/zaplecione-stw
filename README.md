@@ -1,13 +1,15 @@
 # Zaplecione_Stw — strona
 
-Jednostronicowa strona salonu fryzjerskiego Zaplecione_Stw ze Stalowej Woli.
+Jednostronicowa, **pokazowa** strona salonu fryzjerskiego. Wszystkie dane kontaktowe,
+nazwisko wlascicielki i ceny sa wymyslone — strona nie reprezentuje dzialajacej firmy.
 Czysty HTML/CSS/JS, bez frameworków i bez builda.
 
 ## Publikacja
 **https://nyjah2115.github.io/zaplecione-stw/** — repo `Nyjah2115/zaplecione-stw`,
 gałąź `main`, katalog `/`. Po każdej zweryfikowanej zmianie: commit i push.
 
-W `.gitignore` celowo: `DANE-DO-POTWIERDZENIA.md` (prywatne), `media/hero/orig/` (33 MB
+W `.gitignore` celowo: `DANE-DO-POTWIERDZENIA.md` i `BADANIE.md` (prywatne notatki),
+`prywatne/` (materialy klienta wyniesione poza repo), `media/hero/orig/` (33 MB
 oryginałów) i `media/logo/zrodlo-canva.svg` (2,2 MB, nieużywany przez stronę).
 
 ## Podgląd lokalny
@@ -17,8 +19,7 @@ Konfiguracja `zaplecione` w `/Users/macbook/claude/.claude/launch.json`, port **
 - `index.html` · `style.css` · `script.js`
 - `archiwum/` — odrzucone warianty: wersja ciemna, poprzednie hero z kurtyną
   oraz boczny warkocz `warkocz-boczny.svg`. Nie kasować, Dawid może chcieć wrócić.
-- `media/foto/` — zdjęcia wybrane na stronę (z publicznego Instagrama salonu)
-- `media/ig/` — komplet 12 pobranych postów + `urls.txt` ze źródłami
+- `media/foto/` — zdjęcia wybrane na stronę
 - `media/hero/` — tu trafią klipy z Higgsfield
 - `BADANIE.md` — co ustaliłem o firmie i skąd
 - `DANE-DO-POTWIERDZENIA.md` — **wszystko, co jest zmyślone i wymaga potwierdzenia**
@@ -44,18 +45,14 @@ dopasowana do wysokości i przesunięta w bok, a puste pole domalowane rozciągn
 krawędzią klatki — tło jest jednolicie kremowe, więc szwu nie widać.
 Stała `SRODEK_WARKOCZA` w `script.js` mówi, gdzie warkocz siedzi w źródle.
 
-**Portret Anny** — `media/foto/anna.jpg`, wycięty skryptem `tools/kadr.swift` ze zrzutu
-`~/Desktop/ZAPLECIONE/Zrzut ekranu 2026-08-28 o 00.48.33.png` (kadr 300,262 360×450).
-Gdyby plik kiedyś zniknął, skrypt chowa obrazek klasą `bez-zdjecia` i zostaje sam tekst,
-zamiast złamanej ikony.
-⚠️ W tle zdjęcia widać ściankę z logotypami **BeYou / Beauty for You** — to marka szkoleniowa,
-u której Anna się kształciła. Warto potwierdzić, czy chce mieć cudze logo w hero.
+**Portret w sekcji „Poznajmy się"** zostal usuniety razem z pozostalymi materialami
+klienta — sekcja pokazuje sam tekst.
 
 **Dwa przystanki tekstowe** (`.hero__krok` z `data-od` / `data-do` w skali postępu 0–1).
 Wychodzący tekst gaśnie w 0,3 s, wchodzący startuje z opóźnieniem 0,3 s — bez tego
 przez moment nakładały się dwa akapity w tym samym miejscu.
 Trzeci przystanek („Czasem najlepsze, co możemy zrobić, to odmówić") został na życzenie
-Dawida usunięty, a Anna dostała całą drugą połowę przewijania. Jej tekst jest napisany
+Dawida usunięty, a druga osoba dostała całą drugą połowę przewijania. Jej tekst jest napisany
 **w pierwszej osobie** — przedstawia się sama. W tym przystanku **celowo nie ma żadnego
 przycisku**: numer telefonu jest w pasku nawigacji i w pierwszym przystanku, a tu ma być
 tylko przedstawienie się.
@@ -128,12 +125,8 @@ Orły 2025). Strzałka „przewiń w dół" w hero celowała w pasek zaufania, w
 usunięciu wskazuje na `#certyfikat`.
 
 ## Ikony społecznościowe
-Instagram i Facebook występują jako okrągłe ikony (`.ikona`) w **dwóch miejscach**:
-w lewym górnym rogu przy nazwie w pasku (wariant `.ikona--mala`, 36 px) i w sekcji
-kontaktu (48 px). W pasku to `.nav__spolecznosciowe` przejmuje `margin-right:auto`,
-bo to ono odpycha resztę nawigacji w prawo — `.nav__brand` już tego nie robi.
-Poniżej 760 px ikony w pasku są ukryte, żeby nie ściskać nazwy i telefonu;
-w sekcji kontaktu zostają.
+Usuniete — nie ma fikcyjnych profili, do ktorych mozna by linkowac. Style `.ikona`
+i `.nav__spolecznosciowe` zostaja w arkuszu na wypadek powrotu.
 Nazwa serwisu została w kodzie jako `.tylko-czytnik` — sam glif nie mówi czytnikowi
 ekranu, dokąd prowadzi odnośnik.
 Animacja: ciemne koło wjeżdża od dołu (`::before` ze `scale(0)` → `scale(1)`,
@@ -171,7 +164,7 @@ co do krzywej.
 
 ## Głos strony
 Cała treść jest napisana **w pierwszej osobie liczby pojedynczej**, jakby pisała ją sama
-Ania: „poproszę", „oceniam", „Zapraszam na Staszica", „Co robię", „Jak pracuję",
+wlascicielka: „poproszę", „oceniam", „Zapraszam do salonu", „Co robię", „Jak pracuję",
 „otrzymałam certyfikat". Przy dopisywaniu czegokolwiek trzeba trzymać ten głos.
 
 Szybka kontrola, czy nic nie wróciło do liczby mnogiej:
