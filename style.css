@@ -435,7 +435,7 @@ a{ color:inherit; }
   letter-spacing:-.02em; color:var(--ink);
   animation:logoWchodzi 1.1s var(--ease) .2s both;
 }
-/* Miasto pod nazwą — czytane razem z nią jako „Zaplecione Stalowa Wola”.
+/* Miasto pod nazwą — czytane razem z nią jako „Zaplecione Warszawa”.
    Kreska po lewej wiąże je z napisem, zamiast robić z tego osobny podpis. */
 .hero__miasto{
   display:flex; align-items:center; gap:.7em;
