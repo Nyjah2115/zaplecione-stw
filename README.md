@@ -121,11 +121,11 @@ warkocz) i wszystko nakłada się co do piksela. W pasku ten sam wektor ma węż
 Monogram „Z" (`.nav__mark`) usunięty wcześniej — nie odtwarzać.
 
 ## Kolejność sekcji
-hero → certyfikat → usługi → metamorfozy → skup → cennik → przed wizytą → kontakt.
+hero → poznajmy się → usługi → metamorfozy → skup → cennik → przed wizytą → kontakt.
 Usunięte na polecenie Dawida, **nie odtwarzać**: sekcja „Jak pracuję" (`#proces`)
 oraz pasek zaufania z liczbami (`#zaufanie`, klasy `.trust*` — 9,9/10, 98%, 5,5 tys.,
 Orły 2025). Strzałka „przewiń w dół" w hero celowała w pasek zaufania, więc po jego
-usunięciu wskazuje na `#certyfikat`.
+usunięciu wskazuje na `#poznajmy`.
 
 ## Ikony społecznościowe
 Usuniete — nie ma fikcyjnych profili, do ktorych mozna by linkowac. Style `.ikona`
@@ -137,16 +137,6 @@ Animacja: ciemne koło wjeżdża od dołu (`::before` ze `scale(0)` → `scale(1
 a cały przycisk unosi się o 3 px. To samo dzieje się na `:focus-visible`, więc
 efekt działa też przy nawigacji klawiaturą. Przy `prefers-reduced-motion`
 zostaje sama zmiana koloru.
-
-## Sekcja certyfikatu
-Prawa kolumna `#certyfikat` pokazuje **zdjęcie certyfikatu**, jeśli istnieje plik
-`media/foto/certyfikat-iso.jpg`. Skrypt dokłada wtedy klasę `ma-zdjecie` na `#isoDowod`,
-co pokazuje `<img>` i chowa `.iso__dane`. Bez pliku zostaje tabelka z danymi — sekcja
-nigdy nie jest pusta i nigdy nie pokazuje złamanej ikony obrazka.
-Przetestowane w obie strony: z plikiem i bez.
-Zdjęcie **nie ma `loading="lazy"`** — przy leniwym ładowaniu najpierw mignęłaby tabelka,
-a dopiero potem podmieniło się zdjęcie.
-Kadr zrobiony `tools/kadr.swift` (118,512 782×1002) ze zrzutu z pulpitu.
 
 ## Typografia
 **Prata** (nagłówki) + **Inter** (tekst). Prata została dobrana jako najbliższy

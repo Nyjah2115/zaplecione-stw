@@ -219,17 +219,6 @@
     }
   });
 
-  /* --- certyfikat ISO: awaryjne odsłonięcie tabelki ---
-     Zdjęcie jest widoczne domyślnie (CSS). Jeśli pliku nie da się wczytać,
-     dokładamy klasę i w to miejsce wraca tabelka z danymi. */
-  var zdjecieIso = document.getElementById('zdjecieIso');
-  var isoDowod = document.getElementById('isoDowod');
-  if (zdjecieIso && isoDowod) {
-    var brakIso = function () { isoDowod.classList.add('bez-zdjecia'); };
-    zdjecieIso.addEventListener('error', brakIso);
-    if (zdjecieIso.complete && !zdjecieIso.naturalWidth) brakIso();
-  }
-
   /* --- rok w stopce --- */
   var rok = document.getElementById('rok');
   if (rok) rok.textContent = new Date().getFullYear();

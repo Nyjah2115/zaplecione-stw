@@ -542,45 +542,6 @@ section{ padding:var(--space-6) clamp(1rem,4vw,3rem); }
 section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 .sect__head{ max-width:var(--maxw); margin:0 auto var(--space-5); }
 
-/* ---------- Certyfikat ISO ---------- */
-.iso{ background:var(--paper-2); border-block:1px solid var(--line); }
-.iso__inner{
-  max-width:var(--maxw); margin-inline:auto;
-  display:grid; grid-template-columns:1.1fr .9fr; gap:var(--space-5); align-items:center;
-}
-.iso__txt .lead + .lead{ margin-top:var(--space-3); }
-.iso__txt .lead{ margin-top:var(--space-3); }
-/* Zdjęcie certyfikatu jest widoczne DOMYŚLNIE, a tabelka z danymi tylko wtedy,
-   gdy skrypt zgłosi, że pliku nie da się wczytać. Wcześniej było odwrotnie i przy
-   wyłączonym albo przerwanym JS zdjęcie w ogóle się nie pokazywało. */
-.iso__zdjecie{
-  display:block; width:100%; height:auto; border-radius:4px;
-  border:1px solid var(--line);
-  box-shadow:0 20px 44px rgba(43,33,26,.16);
-}
-.iso__dowod.bez-zdjecia .iso__zdjecie{ display:none; }
-.iso__dowod.bez-zdjecia .iso__dane{ display:block; }
-
-.iso__dane{
-  display:none;
-  margin:0; padding:var(--space-4);
-  background:var(--paper); border:1px solid var(--line); border-radius:4px;
-  box-shadow:0 14px 32px rgba(43,33,26,.08);
-  position:relative;
-}
-/* delikatna złota krecha u góry zamiast pieczątki */
-.iso__dane::before{
-  content:""; position:absolute; left:var(--space-4); right:var(--space-4); top:-1px;
-  height:2px; background:var(--gold);
-}
-.iso__dane > div{ padding:.7rem 0; border-bottom:1px solid var(--line); }
-.iso__dane > div:last-child{ border-bottom:0; padding-bottom:0; }
-.iso__dane dt{
-  font-size:.68rem; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--gold-deep); font-weight:600; margin-bottom:.2rem;
-}
-.iso__dane dd{ margin:0; font-size:.95rem; color:var(--ink); }
-
 /* ---------- Usługi / mozaika ---------- */
 .uslugi{ max-width:var(--maxw); margin-inline:auto; }
 /* Kafelki z tekstem na zdjęciu wymagały ciemnej powłoki tak gęstej, że ze zdjęcia
@@ -931,7 +892,7 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 1rem); }
 @media (max-width:1024px){
   .mozaika{ grid-template-columns:repeat(2,1fr); }
   .galeria__grid{ grid-template-columns:repeat(2,1fr); }
-  .skup__inner, .kontakt__inner, .iso__inner{ grid-template-columns:1fr; }
+  .skup__inner, .kontakt__inner{ grid-template-columns:1fr; }
   /* portret i tekst jeden pod drugim — obok siebie zostaje na oba za wąsko */
   .poznajmy__inner{ grid-template-columns:1fr; gap:var(--space-3); }
   /* Portret bierze całą szerokość kolumny — przy 62vw wisiał przy lewej krawędzi
