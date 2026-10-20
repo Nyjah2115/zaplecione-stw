@@ -158,7 +158,7 @@ co do krzywej.
 ## Głos strony
 Cała treść jest napisana **w pierwszej osobie liczby pojedynczej**, jakby pisała ją sama
 wlascicielka: „poproszę", „oceniam", „Zapraszam do salonu", „Co robię", „Jak pracuję",
-„otrzymałam certyfikat". Przy dopisywaniu czegokolwiek trzeba trzymać ten głos.
+„oceniam". Przy dopisywaniu czegokolwiek trzeba trzymać ten głos.
 
 Szybka kontrola, czy nic nie wróciło do liczby mnogiej:
 
